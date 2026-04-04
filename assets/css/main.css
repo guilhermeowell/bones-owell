@@ -62,3 +62,12 @@ html.lenis { height: auto; }
 @media (max-width: 768px) {
     .mask-gradient-right { mask-image: linear-gradient(to right, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); }
 }
+
+/* Ocultar Botão Play Nativo iOS (Safari) no Vídeo de Fundo */
+video::-webkit-media-controls,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-panel {
+    display: none !important;
+    -webkit-appearance: none;
+}
