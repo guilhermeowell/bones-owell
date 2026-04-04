@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owell - Lifestyle Caps</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        oswald: ['Oswald', 'sans-serif'],
+                        space: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        neutral: {
+                            950: '#0a0a0a',
+                            900: '#171717',
+                            800: '#262626',
+                            700: '#404040',
+                            600: '#525252',
+                            500: '#737373',
+                            400: '#a3a3a3',
+                            300: '#d4d4d4',
+                            200: '#e5e5e5',
+                            100: '#f5f5f5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .font-oswald { font-family: 'Oswald', sans-serif; }
+        .font-space { font-family: 'Space Grotesk', sans-serif; }
+        
+        /* Scrollbar oculta e fix para bouncing horizontal */
+        ::-webkit-scrollbar { display: none; }
+        body { 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+            background-color: #f5f5f5; 
+            color: #0a0a0a; 
+        }
+        
+        /* Lenis smooth scroll */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        /* Botão Glass Effect Transparente e Elegante */
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            color: #0a0a0a;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* Para o SplitType funcionar e as letras subirem independentes */
+        .char { display: inline-block; }
+        
+        @keyframes shimmer {
+            100% { transform: translateX(200%); }
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @media (max-width: 768px) {
+            .mask-gradient-right { mask-image: linear-gradient(to right, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); }
+        }
+    </style>
+</head>
+<body class="antialiased font-space min-h-screen">
+
+    <!-- Cabeçalho -->
+    <header class="fixed top-0 w-full z-50 bg-[#f5f5f5]/80 backdrop-blur-md border-b border-black/5 px-6 py-4 xl:px-12 flex justify-between items-center transition-all duration-300">
+        <!-- Logo - Agora menor (w-16 md:w-20 lg:w-24) -->
+        <div class="header-el opacity-0 translate-y-[-10px] w-16 md:w-20 lg:w-24 flex items-center">
+            <img src="Materiais/Logo%20Owell%20R.pdf" alt="Owell Logo" class="w-full h-auto" onerror="this.onerror=null; this.outerHTML='<span class=\'font-oswald font-bold text-xl uppercase\'>Owell</span>';"/>
+        </div>
+
+        <!-- Menu Desktop -->
+        <div class="header-el opacity-0 translate-y-[-10px] hidden md:flex items-center gap-10 text-[0.7rem] font-semibold tracking-widest uppercase text-neutral-600">
+            <a class="hover:text-black transition-colors" href="#">Home</a>
+            <a class="hover:text-black transition-colors" href="https://www.owell.com.br/shop/lancamentos/">Lançamentos</a>
+            <a class="text-black font-bold" href="#">Coleção 2026</a>
+            <a class="hover:text-black transition-colors" href="#">Suporte</a>
+        </div>
+
+        <!-- Ações Direitas (Spacer Vazio para simetria do cabeçalho) -->
+        <div class="header-el opacity-0 w-16 md:w-20 lg:w-24"></div>
+    </header>
+
+    <main class="w-full relative bg-[#f5f5f5]">
+        
+        <!-- HERO SECTION COM SCROLL NATURAL E SCRUB MAIS RÁPIDO -->
+        <!-- O container tem 200vh. O vídeo fica sticky na tela enquanto você rola, e o scrub acontece dentro dessa área. -->
+        <section id="hero" class="relative w-full h-[200vh]">
+            
+            <!-- Vídeo Fixo (Sticky) -->
+            <div class="sticky top-0 w-full h-screen overflow-hidden z-0 flex items-center justify-center">
+                <!-- Vídeo adaptado para preencher a tela mantendo a proporção -->
+                <video id="hero-video" src="Materiais/Four_caps_owell.mp4" muted playsinline preload="auto" class="w-full h-full object-cover sm:object-contain bg-[#f5f5f5]"></video>
+            </div>
+
+            <!-- Container único no rodapé do primeiro viewport -->
+            <div id="hero-text-layer" class="absolute top-0 left-0 w-full h-[100vh] z-10 flex flex-col justify-end items-center px-6 pb-[3vh] md:pb-[6vh] pointer-events-none">
+                
+                <!-- Subtítulo Fino e Elegante (centralizado acima do bloco) -->
+                <h2 class="hero-stagger opacity-0 mb-4 text-[0.65rem] md:text-[0.75rem] font-space font-semibold tracking-[0.4em] uppercase text-neutral-950 text-center">
+                    Lifestyle caps collection
+                </h2>
+
+                <!-- Row Principal: Título Reduzido + Botão Lado a Lado -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 pointer-events-auto">
+                    
+                    <!-- Título Principal Reduzido numa linha só -->
+                    <h1 class="hero-title text-5xl md:text-6xl lg:text-[5rem] xl:text-[6rem] leading-[0.9] font-oswald font-bold text-neutral-950 uppercase tracking-tighter mix-blend-darken text-center">
+                        Bonés Owell® 2026
+                    </h1>
+
+                    <!-- Glass Button CTA -->
+                    <div class="hero-stagger opacity-0 flex-shrink-0">
+                        <a href="https://www.owell.com.br/shop/acessorios/bones/" class="glass-btn rounded-full px-6 py-3 md:px-8 md:py-4 flex items-center gap-2 group">
+                            <span class="text-[0.65rem] md:text-xs font-semibold tracking-[0.1em] uppercase">Explorar coleção</span>
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Carousel de Produtos -->
+        <section class="min-h-screen bg-white relative z-20 pt-32 pb-32 px-6 md:px-12 xl:px-24 border-t border-black/5 overflow-hidden" id="colecao">
+            <div class="max-w-[90rem] mx-auto">
+                <div class="flex justify-between items-end mb-12">
+                    <div class="text-left section-title opacity-0 translate-y-10">
+                        <p class="text-caribe-500 font-space font-semibold uppercase tracking-[0.3em] text-[0.65rem] md:text-xs mb-3">Owell Original</p>
+                        <h2 class="text-4xl md:text-5xl lg:text-6xl font-oswald font-medium text-neutral-950 uppercase tracking-tighter">Collection 2026</h2>
+                    </div>
+                    
+                    <!-- Swiper Navigation (Desktop) -->
+                    <div class="hidden md:flex gap-3 section-title opacity-0 translate-y-10">
+                        <button class="swiper-button-prev-custom w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        <button class="swiper-button-next-custom w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Swiper Wrapper -->
+                <div class="swiper product-swiper overflow-visible pb-12">
+                    <div class="swiper-wrapper">
+                        
+                        <!-- Produto 1 -->
+                        <div class="swiper-slide h-auto">
+                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-sm hover:shadow-2xl h-full">
+                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[1.5rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
+                                    <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="w-full h-full block cursor-pointer">
+                                        <img src="Materiais/Boné%20Essential%20Preto%20frente.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Essential Preto">
+                                    </a>
+                                </div>
+                                <div class="px-2 flex-grow flex flex-col text-left">
+                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Essential</h3>
+                                    <div class="font-mono text-xs text-neutral-400 mb-2">Preto</div>
+                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 94,90</div>
+                                    <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
+                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
+                                            Comprar Agora
+                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produto 2 -->
+                        <div class="swiper-slide h-auto">
+                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-sm hover:shadow-2xl h-full">
+                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[1.5rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
+                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="w-full h-full block cursor-pointer">
+                                        <img src="Materiais/Boné%20Hawaii%20bege%20e%20caribe%20frente.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Hawaii Bege e Caribe">
+                                    </a>
+                                </div>
+                                <div class="px-2 flex-grow flex flex-col text-left">
+                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Hawaii</h3>
+                                    <div class="font-mono text-xs text-neutral-400 mb-2">Bege e Caribe</div>
+                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 119,90</div>
+                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
+                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
+                                            Comprar Agora
+                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produto 3 -->
+                        <div class="swiper-slide h-auto">
+                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-sm hover:shadow-2xl h-full">
+                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[1.5rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
+                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="w-full h-full block cursor-pointer">
+                                        <img src="Materiais/Boné%20Hawaii%20Preto%20frente.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Hawaii Preto">
+                                    </a>
+                                </div>
+                                <div class="px-2 flex-grow flex flex-col text-left">
+                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Hawaii</h3>
+                                    <div class="font-mono text-xs text-neutral-400 mb-2">Preto Clássico</div>
+                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 119,90</div>
+                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
+                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
+                                            Comprar Agora
+                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produto 4 -->
+                        <div class="swiper-slide h-auto">
+                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-sm hover:shadow-2xl h-full">
+                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[1.5rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
+                                    <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank" class="w-full h-full block cursor-pointer">
+                                        <img src="Materiais/Boné%20Jasmim%20Marrom%20frente.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Jasmim Marrom">
+                                    </a>
+                                </div>
+                                <div class="px-2 flex-grow flex flex-col text-left">
+                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Jasmim</h3>
+                                    <div class="font-mono text-xs text-neutral-400 mb-2">Marrom</div>
+                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 139,90</div>
+                                    <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
+                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
+                                            Comprar Agora
+                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Swiper Pagination (Mobile) -->
+                    <div class="swiper-pagination !bottom-0 md:!hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lookbook Section -->
+        <section id="lookbook" class="relative w-full min-h-[100vh] overflow-hidden flex flex-col justify-between bg-neutral-950">
+            <!-- Background Image with Overlay -->
+            <div class="lookbook-bg absolute inset-0 w-full h-full">
+                <img src="Materiais/OTO08933.jpg" class="w-full h-full object-cover object-center translate-y-10 scale-105" alt="Owell Style">
+                <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/70 via-neutral-950/20 to-neutral-950/40"></div>
+            </div>
+
+            <!-- Top Navigation -->
+            <div class="relative z-10 w-full px-8 md:px-16 pt-8">
+                <div class="flex justify-between items-center text-center text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase text-white/50 w-full relative">
+                    <div class="flex-1 cursor-pointer hover:text-white transition-colors duration-300 py-4 text-white">Nova Coleção</div>
+                    <div class="flex-1 cursor-pointer hover:text-white transition-colors duration-300 py-4">Acessórios</div>
+                    <!-- Linha Base -->
+                    <div class="absolute bottom-0 left-0 w-full h-[1px] bg-white/20"></div>
+                    <!-- Linha Ativa (metade esquerda) -->
+                    <div class="absolute bottom-0 left-0 w-1/2 h-[1px] bg-white transition-transform duration-500"></div>
+                </div>
+            </div>
+
+            <!-- Middle Content: Left text & Bottom Cards -->
+            <div class="relative z-10 flex-1 w-full pl-8 pr-6 md:pl-16 md:pr-16 pb-12 flex flex-col justify-end">
+                <!-- Stack vertical: Texto Principal primeiro, depois os Cards -->
+                <div class="flex flex-col gap-8 md:gap-12 w-full max-w-7xl mx-auto">
+                    
+                    <!-- Texto Principal -->
+                    <div class="max-w-2xl flex flex-col items-start gap-8 mt-auto pt-24 pb-24 md:pb-32 text-left">
+                        <div class="relative">
+                            <!-- Traço decorativo da marca -->
+                            <div class="w-12 h-[2px] bg-white/40 mb-6 origin-left scale-x-0 lookbook-line"></div>
+                            <h2 class="lookbook-title text-5xl md:text-6xl lg:text-8xl font-oswald font-bold text-white uppercase tracking-tighter leading-[0.9]">
+                                Estilo Próprio,<br>Atitude Real.
+                            </h2>
+                            <p class="lookbook-subtitle mt-6 text-sm md:text-lg text-white/80 font-space font-medium tracking-wide max-w-sm md:max-w-none">
+                                Explore os bonés da nova coleção Owell. Feitos para quem vive o agora.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Elementos Flutuantes nos Cantos Inferiores -->
+            
+            <!-- Cards de Produtos (Bottom Left) -->
+            <div class="absolute bottom-6 md:bottom-12 left-6 md:left-12 z-40 flex flex-nowrap lg:flex-wrap gap-4 md:gap-5 w-[85vw] lg:w-auto overflow-x-auto lg:overflow-visible hide-scrollbar pb-2 md:pb-0" style="min-height: 80px;">
+                <!-- Card 1 -->
+                <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-3 md:gap-4 h-[60px] md:h-[72px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-2 pr-6 md:pr-8 hover:-translate-y-1 hover:bg-white/20 hover:border-white/40 transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
+                    
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                        <img src="Materiais/Boné%20Essential%20Preto%20frente.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="flex flex-col justify-center relative z-10 text-left">
+                        <span class="text-[0.6rem] md:text-[0.65rem] font-space font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] text-white truncate max-w-[120px] md:max-w-[140px]">Boné Essential</span>
+                        <span class="text-xs md:text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 94,90</span>
+                    </div>
+                </a>
+                
+                <!-- Card 2 -->
+                <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-3 md:gap-4 h-[60px] md:h-[72px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-2 pr-6 md:pr-8 hover:-translate-y-1 hover:bg-white/20 hover:border-white/40 transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
+                    
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                        <img src="Materiais/Boné%20Hawaii%20bege%20e%20caribe%20frente.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="flex flex-col justify-center relative z-10 text-left">
+                        <span class="text-[0.6rem] md:text-[0.65rem] font-space font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] text-white truncate max-w-[120px] md:max-w-[140px]">Boné Hawaii Bege</span>
+                        <span class="text-xs md:text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                    </div>
+                </a>
+
+                <!-- Card 3 -->
+                <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-3 md:gap-4 h-[60px] md:h-[72px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-2 pr-6 md:pr-8 hover:-translate-y-1 hover:bg-white/20 hover:border-white/40 transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
+                    
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                        <img src="Materiais/Boné%20Hawaii%20Preto%20frente.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="flex flex-col justify-center relative z-10 text-left">
+                        <span class="text-[0.6rem] md:text-[0.65rem] font-space font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] text-white truncate max-w-[120px] md:max-w-[140px]">Boné Hawaii Preto</span>
+                        <div class="flex items-center gap-1.5 mt-0.5">
+                            <span class="text-xs md:text-sm font-oswald text-white/90 tracking-wide">R$ 119,90</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Botão Jasmim Marrom (Bottom Right) -->
+            <div class="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-40 lookbook-right-btn" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank" class="group flex items-center bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-6 md:px-8 h-[60px] md:h-[72px] hover:-translate-y-1 hover:bg-white/20 hover:border-white/40 transition-all duration-500 shadow-2xl relative overflow-hidden">
+                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
+                    <span class="text-[0.65rem] md:text-sm font-space font-bold uppercase tracking-[0.1em] md:tracking-widest text-white relative z-10 drop-shadow-md flex items-center gap-3">
+                        <span class="truncate block">Boné Owell® Jasmim</span>
+                        <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Init Lenis
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0, 0);
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // Header animation
+            gsap.to('.header-el', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.1,
+                ease: "power3.out",
+                delay: 0.1
+            });
+
+            // Splitting typography
+            const heroText = new SplitType('.hero-title', { types: 'chars, words' });
+            const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+            tl.from(heroText.chars, {
+                opacity: 0,
+                y: 50,
+                rotateX: -20,
+                stagger: 0.02,
+                duration: 1.2,
+                delay: 0.2
+            })
+            .to('.hero-stagger', {
+                opacity: 1,
+                y: -10,
+                stagger: 0.1,
+                duration: 1
+            }, "-=0.8");
+
+            // SCRUB VIDEO PARALLAX
+            const video = document.getElementById('hero-video');
+            video.pause();
+            
+            let scrollInit = false;
+
+            const initVideoScroll = () => {
+                if (scrollInit) return;
+                scrollInit = true;
+
+                // Scrub mapping sem 'pin'. O container #hero é 200vh.
+                // Enquanto a janela rola por sobre esses 200vh, o vídeo, que está sticky internamente, fará o scrub.
+                // Como não tem pin, a página (e os textos soltos) rola naturalmente, sumindo de vista rápido.
+                ScrollTrigger.create({
+                    trigger: "#hero",
+                    start: "top top",
+                    end: "bottom bottom", 
+                    scrub: 0.5, // Resposta mais ágil/rápida, acelerando o scrub!
+                    onUpdate: (self) => {
+                        if (video.duration) {
+                            video.currentTime = video.duration * self.progress;
+                        }
+                    }
+                });
+                
+                // O texto e botão principal com um leve delay
+                gsap.to(".hero-title, .hero-stagger", {
+                    y: -100,
+                    ease: "power1.inOut",
+                    scrollTrigger: {
+                        trigger: "#hero",
+                        start: "top -15%", // Leve delay antes de começar o parallax do texto
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            };
+
+            if (video.readyState >= 1) {
+                initVideoScroll();
+            } else {
+                video.addEventListener('loadedmetadata', initVideoScroll);
+                setTimeout(initVideoScroll, 2000); // fallback
+            }
+
+            fetch(video.src)
+                .then(response => response.blob())
+                .then(blob => {
+                    const blobUrl = URL.createObjectURL(blob);
+                    video.src = blobUrl;
+                })
+                .catch(err => console.log('Fetch buffering failed:', err));
+
+            // INIT SWIPER CAROUSEL
+            const swiper = new Swiper('.product-swiper', {
+                slidesPerView: 1.2,
+                spaceBetween: 16,
+                grabCursor: true,
+                loop: true,
+                speed: 800, // Transição mais suave
+                freeMode: true, // Scroll contínuo, livre e sedoso, sem estalos
+                mousewheel: {
+                    forceToAxis: true,
+                    sensitivity: 0.5, // Suaviza o impacto no touchpad do Mac
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next-custom',
+                    prevEl: '.swiper-button-prev-custom',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 24,
+                    },
+                    1024: {
+                        slidesPerView: 2,
+                        spaceBetween: 32,
+                    }
+                }
+            });
+
+            // GSAP ANIMATIONS FOR CAROUSEL
+            gsap.to(".section-title", {
+                y: 0,
+                opacity: 1,
+                stagger: 0.1,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: "#colecao",
+                    start: "top 80%",
+                }
+            });
+
+            // Animating Product Cards sequentially on scroll
+            ScrollTrigger.batch(".product-card", {
+                onEnter: batch => gsap.to(batch, {
+                    y: 0,
+                    opacity: 1,
+                    stagger: 0.15,
+                    duration: 1.2,
+                    ease: "power3.out"
+                }),
+                start: "top 85%"
+            });
+
+            // Lookbook Section Animation
+            const lookbookText = new SplitType('.lookbook-title', { types: 'words, chars' });
+            
+            // Parallax subtly on bg image
+            gsap.to(".lookbook-bg img", {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#lookbook",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            const lookbookTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#lookbook",
+                    start: "top 60%", // dispara quando topo atingir 60% da tela
+                }
+            });
+
+            // Animação de entrada sofisticada Lookbook
+            lookbookTl.from(".lookbook-bg img", {
+                scale: 1.2,
+                duration: 2.5,
+                ease: "power3.out"
+            }, 0)
+            .from(".lookbook-bg div", {
+                opacity: 1, // Overlay começa forte escuro e clareia pro tom correto
+                duration: 2,
+                ease: "power2.out"
+            }, 0)
+            .to(".lookbook-line", {
+                scaleX: 1,
+                duration: 1,
+                ease: "power3.inOut"
+            }, 0.3)
+            .from(lookbookText.chars, {
+                opacity: 0,
+                y: 50,
+                rotateX: -40,
+                scale: 0.9,
+                filter: "blur(12px)",
+                stagger: 0.03,
+                duration: 1.2,
+                ease: "back.out(1.4)"
+            }, 0.5)
+            .from(".lookbook-subtitle", {
+                opacity: 0,
+                y: 20,
+                filter: "blur(5px)",
+                duration: 1,
+                ease: "power3.out"
+            }, "-=0.8");
+
+            // Independently animate the buttons so they cannot be stuck by timeline cascades
+            gsap.from(".lookbook-card, .lookbook-right-btn", {
+                scrollTrigger: {
+                    trigger: "#lookbook",
+                    start: "top 40%"
+                },
+                y: 40,
+                opacity: 0,
+                scale: 0.95,
+                stagger: 0.15,
+                duration: 1.2,
+                ease: "back.out(1.2)",
+                clearProps: "all"
+            });
+
+        });
+    </script>
+</body>
+</html>
