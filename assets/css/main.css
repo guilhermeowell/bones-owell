@@ -1,0 +1,64 @@
+.font-oswald { font-family: 'Oswald', sans-serif; }
+.font-space { font-family: 'Space Grotesk', sans-serif; }
+
+/* Scrollbar oculta e fix para bouncing horizontal */
+::-webkit-scrollbar { display: none; }
+body { 
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+    background-color: #f5f5f5; 
+    color: #0a0a0a; 
+}
+
+/* Lenis smooth scroll */
+html.lenis { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Links Sublinhados Dinâmicos */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Botão Glass Effect Transparente e Elegante */
+.glass-btn {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    color: #0a0a0a;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px) scale(1.02);
+}
+
+/* Para o SplitType funcionar e as letras subirem independentes */
+.char { display: inline-block; }
+
+@keyframes shimmer {
+    100% { transform: translateX(200%); }
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+@media (max-width: 768px) {
+    .mask-gradient-right { mask-image: linear-gradient(to right, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); }
+}
