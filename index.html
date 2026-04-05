@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -20,8 +20,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        oswald: ['Oswald', 'sans-serif'],
-                        space: ['Space Grotesk', 'sans-serif'],
+                        oswald: ['Jost', 'sans-serif'],
+                        space: ['Jost', 'sans-serif'],
                     },
                     colors: {
                         neutral: {
@@ -75,7 +75,7 @@
             <!-- Vídeo Fixo (Sticky) -->
             <div class="sticky top-0 w-full h-screen overflow-hidden z-0 flex items-center justify-center">
                 <!-- Vídeo adaptado para preencher a tela mantendo a proporção -->
-                <video id="hero-video" src="./assets/videos/hero-video.mp4" autoplay muted playsinline preload="auto" class="w-full h-full object-cover sm:object-contain bg-[#f5f5f5] pointer-events-none"></video>
+                <video id="hero-video" src="./assets/videos/hero-video.mp4" autoplay muted playsinline webkit-playsinline preload="auto" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" x-webkit-airplay="deny" class="w-full h-full object-cover sm:object-contain bg-[#f5f5f5] pointer-events-none"></video>
             </div>
 
             <!-- Container único no rodapé do primeiro viewport -->
@@ -235,6 +235,8 @@
             <div class="lookbook-bg absolute inset-0 w-full h-full">
                 <img src="./assets/images/lookbook-bg.jpg" class="w-full h-full object-cover object-center translate-y-10 scale-105" alt="Owell Style">
                 <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/70 via-neutral-950/20 to-neutral-950/40"></div>
+                <!-- Overlay dinâmico: escurece ao expandir os cards (mobile) -->
+                <div id="lookbook-dynamic-overlay" class="absolute inset-0 bg-neutral-950 opacity-0 pointer-events-none md:hidden" style="z-index: 1;"></div>
             </div>
 
             <!-- Top Navigation -->
@@ -242,89 +244,144 @@
                 <div class="flex justify-between items-center text-center text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase text-white/50 w-full relative">
                     <div class="flex-1 cursor-pointer hover:text-white transition-colors duration-300 py-4 text-white">Nova Coleção</div>
                     <div class="flex-1 cursor-pointer hover:text-white transition-colors duration-300 py-4">Acessórios</div>
-                    <!-- Linha Base -->
                     <div class="absolute bottom-0 left-0 w-full h-[1px] bg-white/20"></div>
-                    <!-- Linha Ativa (metade esquerda) -->
                     <div class="absolute bottom-0 left-0 w-1/2 h-[1px] bg-white transition-transform duration-500"></div>
                 </div>
             </div>
 
-            <!-- Middle Content: Left text & Bottom Cards -->
-            <div class="relative z-10 flex-1 w-full pl-8 pr-6 md:pl-16 md:pr-16 pb-12 flex flex-col justify-end">
-                <!-- Stack vertical: Texto Principal primeiro, depois os Cards -->
+            <!-- Texto Principal -->
+            <div class="relative z-10 flex-1 w-full pl-8 pr-6 md:pl-16 md:pr-16 flex flex-col justify-end">
                 <div class="flex flex-col gap-8 md:gap-12 w-full max-w-7xl mx-auto">
-                    
-                    <!-- Texto Principal -->
-                    <div class="max-w-2xl flex flex-col items-start gap-8 mt-auto pt-24 pb-24 md:pb-32 text-left">
+                    <div class="max-w-2xl flex flex-col items-start mt-auto pt-24 pb-5 md:pb-36 md:min-h-[55vh] text-left">
                         <div class="relative">
-                            <!-- Traço decorativo da marca -->
                             <div class="w-12 h-[2px] bg-white/40 mb-6 origin-left scale-x-0 lookbook-line"></div>
-                            <h2 class="lookbook-title text-5xl md:text-6xl lg:text-8xl font-oswald font-bold text-white uppercase tracking-tighter leading-[0.9]">
+                            <h2 class="lookbook-title text-[2.4rem] md:text-6xl lg:text-8xl font-oswald font-bold text-white uppercase tracking-tighter leading-[0.9] md:whitespace-nowrap">
                                 Estilo Próprio,<br>Atitude Real.
                             </h2>
-                            <p class="lookbook-subtitle mt-6 text-sm md:text-lg text-white/80 font-space font-medium tracking-wide max-w-sm md:max-w-none">
-                                Explore os bonés da nova coleção Owell. Feitos para quem vive o agora.
-                            </p>
                         </div>
+                        <p class="lookbook-subtitle mt-6 md:mt-auto md:mb-auto text-sm md:text-lg text-white/80 font-space font-medium tracking-wide max-w-sm md:max-w-none">
+                            Explore os bonés da nova coleção Owell. Feitos para quem vive o agora.
+                        </p>
                     </div>
-
                 </div>
             </div>
 
-            <!-- Elementos Flutuantes nos Cantos Inferiores -->
-            
-            <!-- Cards de Produtos (Bottom Left) -->
-            <div class="absolute bottom-6 md:bottom-12 left-6 md:left-12 z-40 flex flex-nowrap lg:flex-wrap gap-4 md:gap-5 w-[85vw] lg:w-auto overflow-x-auto lg:overflow-visible hide-scrollbar pb-2 md:pb-0" style="min-height: 80px;">
+            <!-- ============================================================ -->
+            <!-- MOBILE BOTTOM UI (apenas mobile)                             -->
+            <!-- ============================================================ -->
+            <div class="md:hidden relative z-20 w-full px-6 pb-8 flex flex-col">
+
+                <!-- Botão Jasmim — estética "Discover More" -->
+                <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank"
+                   class="lookbook-right-btn w-full group flex items-center justify-between border border-white/45 bg-white/[0.07] backdrop-blur-xl rounded-full px-6 h-[54px] hover:bg-white/[0.14] hover:border-white/70 transition-all duration-500 shadow-xl relative overflow-hidden mb-5">
+                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/8 to-transparent skew-x-[-20deg]"></div>
+                    <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.22em] text-white relative z-10">Boné Owell® Jasmim</span>
+                    <svg class="w-4 h-4 text-white/55 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 relative z-10 flex-shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+
+                <!-- Botão Toggle (expande/colapsa o deck) -->
+                <div class="flex justify-center mb-5">
+                    <button id="mobile-toggle-btn" aria-label="Ver produtos"
+                        class="w-11 h-11 rounded-full border border-white/30 bg-white/10 backdrop-blur-xl flex items-center justify-center shadow-2xl hover:bg-white/20 hover:border-white/55 active:scale-90 transition-all duration-300">
+                        <svg id="mobile-chevron" class="w-[18px] h-[18px] text-white" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M18 15l-6-6-6 6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Deck de Cards (empilhados inicialmente) -->
+                <div id="mobile-cards-container" style="position: relative; height: 76px;">
+
+                    <!-- Card 1 — topo do deck -->
+                    <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank"
+                       class="lookbook-card-mobile group flex items-center gap-3 h-[60px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-5 shadow-2xl overflow-hidden relative hover:bg-white/20 hover:border-white/45 transition-colors duration-300"
+                       style="position: absolute; top: 0; left: 0; right: 0; z-index: 3;">
+                        <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
+                        <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                            <img src="./assets/images/bone-essential-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="flex flex-col justify-center relative z-10 text-left">
+                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Boné Essential</span>
+                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 94,90</span>
+                        </div>
+                    </a>
+
+                    <!-- Card 2 -->
+                    <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank"
+                       class="lookbook-card-mobile group flex items-center gap-3 h-[60px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-5 shadow-2xl overflow-hidden relative hover:bg-white/20 hover:border-white/45 transition-colors duration-300"
+                       style="position: absolute; top: 0; left: 0; right: 0; z-index: 2;">
+                        <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
+                        <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                            <img src="./assets/images/bone-hawaii-bege-caribe.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="flex flex-col justify-center relative z-10 text-left">
+                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Boné Hawaii Bege</span>
+                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                        </div>
+                    </a>
+
+                    <!-- Card 3 -->
+                    <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank"
+                       class="lookbook-card-mobile group flex items-center gap-3 h-[60px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-5 shadow-2xl overflow-hidden relative hover:bg-white/20 hover:border-white/45 transition-colors duration-300"
+                       style="position: absolute; top: 0; left: 0; right: 0; z-index: 1;">
+                        <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
+                        <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                            <img src="./assets/images/bone-hawaii-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                        </div>
+                        <div class="flex flex-col justify-center relative z-10 text-left">
+                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Boné Hawaii Preto</span>
+                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+            <!-- ============================================================ -->
+
+            <!-- DESKTOP: Cards de Produtos (Bottom Left) -->
+            <div class="hidden md:flex absolute bottom-12 left-16 z-40 flex-nowrap lg:flex-wrap gap-5 lg:w-auto overflow-visible hide-scrollbar" style="min-height: 80px;">
                 <!-- Card 1 -->
-                <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-3 md:gap-4 h-[60px] md:h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-6 md:pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
-                    
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
                         <img src="./assets/images/bone-essential-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <div class="flex flex-col justify-center relative z-10 text-left">
-                        <span class="text-[0.6rem] md:text-[0.65rem] font-space font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] text-white truncate max-w-[120px] md:max-w-[140px]">Boné Essential</span>
-                        <span class="text-xs md:text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 94,90</span>
+                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Boné Essential</span>
+                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 94,90</span>
                     </div>
                 </a>
-                
                 <!-- Card 2 -->
-                <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-3 md:gap-4 h-[60px] md:h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-6 md:pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
-                    
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
                         <img src="./assets/images/bone-hawaii-bege-caribe.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <div class="flex flex-col justify-center relative z-10 text-left">
-                        <span class="text-[0.6rem] md:text-[0.65rem] font-space font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] text-white truncate max-w-[120px] md:max-w-[140px]">Boné Hawaii Bege</span>
-                        <span class="text-xs md:text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Boné Hawaii Bege</span>
+                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
                     </div>
                 </a>
-
                 <!-- Card 3 -->
-                <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-3 md:gap-4 h-[60px] md:h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-6 md:pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
-                    
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
+                    <div class="w-12 h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
                         <img src="./assets/images/bone-hawaii-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <div class="flex flex-col justify-center relative z-10 text-left">
-                        <span class="text-[0.6rem] md:text-[0.65rem] font-space font-bold uppercase tracking-[0.1em] md:tracking-[0.15em] text-white truncate max-w-[120px] md:max-w-[140px]">Boné Hawaii Preto</span>
-                        <div class="flex items-center gap-1.5 mt-0.5">
-                            <span class="text-xs md:text-sm font-oswald text-white/90 tracking-wide">R$ 119,90</span>
-                        </div>
+                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Boné Hawaii Preto</span>
+                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
                     </div>
                 </a>
             </div>
 
-            <!-- Botão Jasmim Marrom (Bottom Right) -->
-            <div class="absolute bottom-24 md:bottom-12 left-6 right-6 md:left-auto md:right-12 z-40 lookbook-right-btn" style="will-change: transform, opacity;">
-                <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank" class="w-full md:w-auto group flex items-center justify-between md:justify-start bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-6 md:px-8 h-[60px] md:h-[72px] hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl relative overflow-hidden">
-                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
-                    <span class="w-full text-[0.65rem] md:text-sm font-space font-bold uppercase tracking-[0.1em] md:tracking-widest text-white relative z-10 drop-shadow-md flex items-center justify-between md:justify-start gap-3">
-                        <span class="truncate block">Boné Owell® Jasmim</span>
-                        <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </span>
+            <!-- DESKTOP: Botão Jasmim (Bottom Right) — estética "Discover More" -->
+            <div class="hidden md:block absolute bottom-12 right-12 z-40 lookbook-right-btn" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank"
+                   class="group flex items-center gap-6 border border-white/45 bg-white/[0.07] backdrop-blur-xl rounded-full px-8 h-[68px] hover:bg-white/[0.15] hover:border-white/75 hover:-translate-y-2 transition-all duration-500 shadow-2xl relative overflow-hidden">
+                    <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/8 to-transparent skew-x-[-20deg]"></div>
+                    <span class="text-xs font-space font-bold uppercase tracking-[0.22em] text-white relative z-10">Boné Owell® Jasmim</span>
+                    <svg class="w-4 h-4 text-white/55 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </a>
             </div>
         </section>

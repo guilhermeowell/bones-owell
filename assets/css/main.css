@@ -1,5 +1,5 @@
-.font-oswald { font-family: 'Oswald', sans-serif; }
-.font-space { font-family: 'Space Grotesk', sans-serif; }
+.font-oswald { font-family: 'Jost', sans-serif; }
+.font-space { font-family: 'Jost', sans-serif; }
 
 /* Scrollbar oculta e fix para bouncing horizontal */
 ::-webkit-scrollbar { display: none; }
@@ -63,11 +63,47 @@ html.lenis { height: auto; }
     .mask-gradient-right { mask-image: linear-gradient(to right, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); }
 }
 
-/* Ocultar Botão Play Nativo iOS (Safari) no Vídeo de Fundo */
+/* Swiper — Indicador Pill (estilo cápsula animada) */
+.product-swiper .swiper-pagination {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.07);
+    border-radius: 100px;
+    padding: 8px 12px;
+    width: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 0 !important;
+}
+
+.product-swiper .swiper-pagination-bullet {
+    width: 7px;
+    height: 7px;
+    border-radius: 100px;
+    background: rgba(0, 0, 0, 0.28);
+    opacity: 1;
+    margin: 0 !important;
+    flex-shrink: 0;
+    transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-swiper .swiper-pagination-bullet-active {
+    width: 30px;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+/* Ocultar todos os controles nativos do vídeo (iOS Safari / Chrome / etc.) */
 video::-webkit-media-controls,
+video::-webkit-media-controls-panel,
 video::-webkit-media-controls-play-button,
 video::-webkit-media-controls-start-playback-button,
-video::-webkit-media-controls-panel {
+video::-webkit-media-controls-overlay-play-button,
+video::-webkit-media-controls-overlay-enclosure,
+video::-webkit-media-controls-enclosure {
     display: none !important;
-    -webkit-appearance: none;
+    opacity: 0 !important;
+    -webkit-appearance: none !important;
+    pointer-events: none !important;
 }

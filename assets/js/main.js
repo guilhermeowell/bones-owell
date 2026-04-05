@@ -45,36 +45,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // SCRUB VIDEO PARALLAX
     const video = document.getElementById('hero-video');
-    video.pause();
-    
+
+    // Para o autoplay assim que os metadados carregam, mantendo o primeiro frame visível
+    const stopAutoplay = () => {
+        video.pause();
+        video.currentTime = 0;
+    };
+    if (video.readyState >= 1) {
+        stopAutoplay();
+    } else {
+        video.addEventListener('loadedmetadata', stopAutoplay, { once: true });
+    }
+
+    // Lerp suave: targetTime atualiza no scroll, lerpTime segue com inércia via RAF
+    let targetTime = 0;
+    let lerpTime   = 0;
+    (function rafLoop() {
+        requestAnimationFrame(rafLoop);
+        if (!video.duration) return;
+        lerpTime += (targetTime - lerpTime) * 0.1;
+        if (Math.abs(targetTime - lerpTime) > 0.0005) {
+            video.currentTime = lerpTime;
+        }
+    })();
+
     let scrollInit = false;
 
     const initVideoScroll = () => {
         if (scrollInit) return;
         scrollInit = true;
 
-        // Scrub mapping sem 'pin'. O container #hero é 200vh.
-        // Enquanto a janela rola por sobre esses 200vh, o vídeo, que está sticky internamente, fará o scrub.
-        // Como não tem pin, a página (e os textos soltos) rola naturalmente, sumindo de vista rápido.
         ScrollTrigger.create({
             trigger: "#hero",
             start: "top top",
-            end: "bottom bottom", 
-            scrub: 0.5, // Resposta mais ágil/rápida, acelerando o scrub!
+            end: "bottom bottom",
             onUpdate: (self) => {
-                if (video.duration) {
-                    video.currentTime = video.duration * self.progress;
+                if (video.duration > 0) {
+                    targetTime = video.duration * self.progress;
                 }
             }
         });
-        
+
         // O texto e botão principal com um leve delay
         gsap.to(".hero-title, .hero-stagger", {
             y: -100,
             ease: "power1.inOut",
             scrollTrigger: {
                 trigger: "#hero",
-                start: "top -15%", // Leve delay antes de começar o parallax do texto
+                start: "top -15%",
                 end: "bottom top",
                 scrub: true
             }
@@ -85,16 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
         initVideoScroll();
     } else {
         video.addEventListener('loadedmetadata', initVideoScroll);
-        setTimeout(initVideoScroll, 2000); // fallback
+        video.addEventListener('canplay', initVideoScroll);
+        setTimeout(initVideoScroll, 3000);
     }
-
-    fetch(video.src)
-        .then(response => response.blob())
-        .then(blob => {
-            const blobUrl = URL.createObjectURL(blob);
-            video.src = blobUrl;
-        })
-        .catch(err => console.log('Fetch buffering failed:', err));
 
     // INIT SWIPER CAROUSEL
     const swiper = new Swiper('.product-swiper', {
@@ -102,8 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         spaceBetween: 16,
         grabCursor: true,
         loop: true,
-        speed: 800, // Transição mais suave
-        freeMode: true, // Scroll contínuo, livre e sedoso, sem estalos
+        speed: 800,
         mousewheel: {
             forceToAxis: true,
             sensitivity: 0.5, // Suaviza o impacto no touchpad do Mac
@@ -223,5 +233,72 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "back.out(1.2)",
         clearProps: "all"
     });
+
+    // ─── Mobile Lookbook Toggle ────────────────────────────────────────────
+    const mobileToggleBtn      = document.getElementById('mobile-toggle-btn');
+    const mobileCardsContainer = document.getElementById('mobile-cards-container');
+    const mobileChevron        = document.getElementById('mobile-chevron');
+    const lookbookOverlay      = document.getElementById('lookbook-dynamic-overlay');
+
+    if (mobileToggleBtn && mobileCardsContainer) {
+        const mobileCards = [...mobileCardsContainer.querySelectorAll('.lookbook-card-mobile')];
+        const CARD_H  = 60;
+        const CARD_GAP = 12;
+        let isExpanded = false;
+
+        // GSAP assume controle total dos transforms — inicializa o deck
+        mobileCards.forEach((card, i) => {
+            gsap.set(card, {
+                y:       i * 6,
+                scale:   1 - i * 0.03,
+                opacity: 1 - i * 0.25
+            });
+        });
+
+        mobileToggleBtn.addEventListener('click', () => {
+            isExpanded = !isExpanded;
+
+            if (isExpanded) {
+                // Expande — cards se separam em lista vertical
+                const totalH = mobileCards.length * CARD_H + (mobileCards.length - 1) * CARD_GAP;
+                gsap.to(mobileCardsContainer, { height: totalH, duration: 0.6, ease: "power3.out" });
+
+                mobileCards.forEach((card, i) => {
+                    gsap.to(card, {
+                        y:       i * (CARD_H + CARD_GAP),
+                        scale:   1,
+                        opacity: 1,
+                        duration: 0.55,
+                        delay:    i * 0.09,
+                        ease:    "back.out(1.3)"
+                    });
+                });
+
+                gsap.to(lookbookOverlay, { opacity: 0.28, duration: 0.5 });
+                gsap.to(mobileChevron,   { rotation: 180, duration: 0.4, ease: "power2.inOut" });
+                mobileToggleBtn.setAttribute('aria-label', 'Ocultar produtos');
+
+            } else {
+                // Colapsa — cards voltam para o deck
+                gsap.to(mobileCardsContainer, { height: 76, duration: 0.5, ease: "power2.in", delay: 0.1 });
+
+                mobileCards.forEach((card, i) => {
+                    gsap.to(card, {
+                        y:       i * 6,
+                        scale:   1 - i * 0.03,
+                        opacity: 1 - i * 0.25,
+                        duration: 0.4,
+                        delay:    (mobileCards.length - 1 - i) * 0.07,
+                        ease:    "power2.in"
+                    });
+                });
+
+                gsap.to(lookbookOverlay, { opacity: 0,  duration: 0.4 });
+                gsap.to(mobileChevron,   { rotation: 0, duration: 0.4, ease: "power2.inOut" });
+                mobileToggleBtn.setAttribute('aria-label', 'Ver produtos');
+            }
+        });
+    }
+    // ──────────────────────────────────────────────────────────────────────
 
 });
