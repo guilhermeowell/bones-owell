@@ -70,36 +70,32 @@
                 <video id="hero-video" src="./assets/videos/hero-video.mov" autoplay muted playsinline webkit-playsinline preload="auto" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" x-webkit-airplay="deny" class="w-full h-full object-cover sm:object-contain bg-[#0a0a0a] pointer-events-none"></video>
             </div>
 
-            <!-- Container único no rodapé do primeiro viewport -->
-            <div id="hero-text-layer" class="absolute top-0 left-0 w-full h-[100vh] z-10 flex flex-col justify-end items-center px-6 pb-[3vh] md:pb-[6vh] pointer-events-none">
+            <!-- Container centralizado vertical e horizontalmente -->
+            <div id="hero-text-layer" class="absolute top-0 left-0 w-full h-[100vh] z-10 flex flex-col justify-center items-center px-6 gap-8 md:gap-10 pointer-events-none">
 
                 <!-- Logo Hero -->
-                <div class="hero-stagger opacity-0 absolute top-0 left-0 w-full flex justify-center pt-24 md:pt-28">
+                <div class="hero-stagger opacity-0">
                     <img src="./assets/images/Logo Owell R_Prancheta 1.png" alt="Owell" class="w-16 md:w-20 lg:w-24 h-auto">
                 </div>
 
-                <!-- Subtítulo Fino e Elegante (centralizado acima do bloco) -->
-                <h2 class="hero-stagger opacity-0 mb-4 text-[0.65rem] md:text-[0.75rem] font-space font-semibold tracking-[0.4em] uppercase text-white text-center">
-                    Lifestyle caps collection
-                </h2>
-
-                <!-- Row Principal: Título Reduzido + Botão Lado a Lado -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 pointer-events-auto">
-                    
-                    <!-- Título Principal Reduzido numa linha só -->
+                <!-- Subtítulo + Título agrupados -->
+                <div class="flex flex-col items-center gap-3 md:gap-4">
+                    <h2 class="hero-stagger opacity-0 text-[0.65rem] md:text-[0.75rem] font-space font-semibold tracking-[0.4em] uppercase text-white text-center">
+                        Lifestyle caps collection
+                    </h2>
                     <h1 class="hero-title text-5xl md:text-6xl lg:text-[5rem] xl:text-[6rem] leading-[0.9] font-oswald font-bold text-white uppercase tracking-tighter text-center">
                         Bonés Owell® 2026
                     </h1>
-
-                    <!-- Glass Button CTA -->
-                    <div class="hero-stagger opacity-0 flex-shrink-0">
-                        <a href="https://www.owell.com.br/shop/acessorios/bones/" class="glass-btn rounded-full px-6 py-3 md:px-8 md:py-4 flex items-center gap-2 group">
-                            <span class="text-[0.65rem] md:text-xs font-semibold tracking-[0.1em] uppercase">Explorar coleção</span>
-                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                        </a>
-                    </div>
-
                 </div>
+
+                <!-- Glass Button CTA -->
+                <div class="hero-stagger opacity-0 pointer-events-auto">
+                    <a href="https://www.owell.com.br/shop/acessorios/bones/" class="glass-btn rounded-full px-6 py-3 md:px-8 md:py-4 flex items-center gap-2 group">
+                        <span class="text-[0.65rem] md:text-xs font-semibold tracking-[0.1em] uppercase">Explorar coleção</span>
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                </div>
+
             </div>
         </section>
 

@@ -86,15 +86,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // O texto e botão principal com um leve delay
+        // Texto fica estático no início do scroll, depois acompanha suavemente
         gsap.to(".hero-title, .hero-stagger", {
-            y: -100,
-            ease: "power1.inOut",
+            y: -160,
+            ease: "none",
             scrollTrigger: {
                 trigger: "#hero",
-                start: "top -15%",
+                start: "top -35%",
                 end: "bottom top",
-                scrub: true
+                scrub: 1.5
             }
         });
     };
