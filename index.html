@@ -48,22 +48,14 @@
 <body class="antialiased font-space min-h-screen">
 
     <!-- Cabeçalho -->
-    <header class="fixed top-0 w-full z-50 bg-[#f5f5f5]/70 backdrop-blur-xl border-b border-black/5 px-6 py-4 xl:px-12 flex justify-between items-center transition-all duration-500 hover:bg-[#f5f5f5]/90">
-        <!-- Logo - Agora menor (w-16 md:w-20 lg:w-24) -->
-        <div class="header-el opacity-0 translate-y-[-10px] w-16 md:w-20 lg:w-24 flex items-center">
-            <img src="./assets/images/logo-owell.pdf" alt="Owell Logo" class="w-full h-auto" onerror="this.onerror=null; this.outerHTML='<span class=\'font-oswald font-bold text-xl uppercase\'>Owell</span>';"/>
-        </div>
-
+    <header class="fixed top-0 w-full z-50 bg-white/[0.12] backdrop-blur-xl border-b border-white/[0.25] px-6 py-4 xl:px-12 flex justify-center items-center transition-all duration-500 hover:bg-white/[0.22]">
         <!-- Menu Desktop -->
-        <div class="header-el opacity-0 translate-y-[-10px] hidden md:flex items-center gap-10 text-[0.65rem] font-medium tracking-[0.15em] uppercase text-neutral-500">
-            <a class="nav-link relative hover:text-black transition-colors duration-300" href="#">Home</a>
-            <a class="nav-link relative hover:text-black transition-colors duration-300" href="https://www.owell.com.br/shop/lancamentos/">Lançamentos</a>
-            <a class="nav-link relative text-black font-semibold" href="#">Coleção 2026</a>
-            <a class="nav-link relative hover:text-black transition-colors duration-300" href="#">Suporte</a>
+        <div class="header-el opacity-0 translate-y-[-10px] hidden md:flex items-center gap-10 text-[0.65rem] font-medium tracking-[0.15em] uppercase text-white/60">
+            <a class="nav-link relative hover:text-white transition-colors duration-300" href="#">Home</a>
+            <a class="nav-link relative hover:text-white transition-colors duration-300" href="https://www.owell.com.br/shop/lancamentos/">Lançamentos</a>
+            <a class="nav-link relative text-white font-semibold" href="#">Coleção 2026</a>
+            <a class="nav-link relative hover:text-white transition-colors duration-300" href="#">Suporte</a>
         </div>
-
-        <!-- Ações Direitas (Spacer Vazio para simetria do cabeçalho) -->
-        <div class="header-el opacity-0 w-16 md:w-20 lg:w-24"></div>
     </header>
 
     <main class="w-full relative bg-[#f5f5f5]">
@@ -80,7 +72,12 @@
 
             <!-- Container único no rodapé do primeiro viewport -->
             <div id="hero-text-layer" class="absolute top-0 left-0 w-full h-[100vh] z-10 flex flex-col justify-end items-center px-6 pb-[3vh] md:pb-[6vh] pointer-events-none">
-                
+
+                <!-- Logo Hero -->
+                <div class="hero-stagger opacity-0 absolute top-0 left-0 w-full flex justify-center pt-24 md:pt-28">
+                    <img src="./assets/images/Logo Owell R_Prancheta 1.png" alt="Owell" class="w-16 md:w-20 lg:w-24 h-auto">
+                </div>
+
                 <!-- Subtítulo Fino e Elegante (centralizado acima do bloco) -->
                 <h2 class="hero-stagger opacity-0 mb-4 text-[0.65rem] md:text-[0.75rem] font-space font-semibold tracking-[0.4em] uppercase text-white text-center">
                     Lifestyle caps collection
