@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Desenha um frame no canvas respeitando cover (mobile) ou contain (desktop)
+    // Desenha um frame no canvas — object-cover em todos os tamanhos (100% largura)
     function drawVideoFrame() {
         if (video.readyState < 2) return;
         const cw = canvas.width, ch = canvas.height;
@@ -64,24 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!cw || !ch || !vw || !vh) return;
         const cRatio = cw / ch, vRatio = vw / vh;
         ctx.clearRect(0, 0, cw, ch);
-        if (window.innerWidth < 640) {
-            // object-cover: preenche sem deformar, corta o excesso
-            if (vRatio > cRatio) {
-                const w = ch * vRatio;
-                ctx.drawImage(video, -(w - cw) / 2, 0, w, ch);
-            } else {
-                const h = cw / vRatio;
-                ctx.drawImage(video, 0, -(h - ch) / 2, cw, h);
-            }
+        // object-cover: preenche sem deformar, corta o excesso (sem barras pretas)
+        if (vRatio > cRatio) {
+            const w = ch * vRatio;
+            ctx.drawImage(video, -(w - cw) / 2, 0, w, ch);
         } else {
-            // object-contain: encaixa inteiro, barras pretas nas laterais
-            if (vRatio > cRatio) {
-                const h = cw / vRatio;
-                ctx.drawImage(video, 0, (ch - h) / 2, cw, h);
-            } else {
-                const w = ch * vRatio;
-                ctx.drawImage(video, (cw - w) / 2, 0, w, ch);
-            }
+            const h = cw / vRatio;
+            ctx.drawImage(video, 0, -(h - ch) / 2, cw, h);
         }
     }
 
@@ -96,23 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
         video.addEventListener('loadedmetadata', stopAutoplay, { once: true });
     }
 
-    // Lerp suave + seek-queue drain: só inicia novo seek após o anterior terminar
-    // Evita fila de seeks que congesta o decoder e causa travamento (especialmente iOS)
+    // Lerp suave: targetTime atualiza no scroll, lerpTime segue com inércia via RAF
     let targetTime = 0;
     let lerpTime   = 0;
-    let isSeeking  = false;
-
-    video.addEventListener('seeked', () => {
-        isSeeking = false;
-        drawVideoFrame(); // desenha o frame assim que estiver pronto
-    });
-
     (function rafLoop() {
         requestAnimationFrame(rafLoop);
         if (!video.duration) return;
         lerpTime += (targetTime - lerpTime) * 0.1;
-        if (!isSeeking && Math.abs(targetTime - lerpTime) > 0.001) {
-            isSeeking = true;
+        if (Math.abs(targetTime - lerpTime) > 0.0005) {
             video.currentTime = lerpTime;
         }
         drawVideoFrame();
@@ -130,22 +110,19 @@ document.addEventListener("DOMContentLoaded", () => {
             end: "bottom bottom",
             onUpdate: (self) => {
                 if (video.duration > 0) {
-                    // 0.35 → vídeo percorre só 35% da duração durante o scroll inteiro,
-                    // parecendo ~3× mais lento / na velocidade natural de visualização
-                    targetTime = video.duration * self.progress * 0.95;
+                    targetTime = video.duration * self.progress;
                 }
             }
         });
 
-        // Texto fica estático no início do scroll, depois acompanha suavemente
         gsap.to(".hero-title, .hero-stagger", {
-            y: -160,
-            ease: "none",
+            y: -100,
+            ease: "power1.inOut",
             scrollTrigger: {
                 trigger: "#hero",
-                start: "top -35%",
+                start: "top -15%",
                 end: "bottom top",
-                scrub: 1.5
+                scrub: true
             }
         });
     };
