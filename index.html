@@ -64,10 +64,10 @@
         <!-- O container tem 200vh. O vídeo fica sticky na tela enquanto você rola, e o scrub acontece dentro dessa área. -->
         <section id="hero" class="relative w-full h-[200vh]">
             
-            <!-- Vídeo Fixo (Sticky) -->
-            <div class="sticky top-0 w-full h-screen overflow-hidden z-0 flex items-center justify-center">
-                <!-- Vídeo adaptado para preencher a tela mantendo a proporção -->
-                <video id="hero-video" src="./assets/videos/hero-video.mov" autoplay muted playsinline webkit-playsinline preload="auto" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" x-webkit-airplay="deny" class="w-full h-full object-cover sm:object-contain bg-[#0a0a0a] pointer-events-none"></video>
+            <!-- Vídeo Fixo (Sticky) — canvas evita botão de play nativo no iOS -->
+            <div class="sticky top-0 w-full h-screen overflow-hidden z-0 flex items-center justify-center bg-[#0a0a0a]">
+                <canvas id="hero-canvas" class="absolute inset-0 w-full h-full" style="display:block;"></canvas>
+                <video id="hero-video" src="./assets/videos/hero-video.mov" autoplay muted playsinline webkit-playsinline preload="auto" disablePictureInPicture x-webkit-airplay="deny" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
             </div>
 
             <!-- Container centralizado vertical e horizontalmente -->
