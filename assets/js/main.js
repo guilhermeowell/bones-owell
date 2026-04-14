@@ -43,8 +43,47 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 1
     }, "-=0.8");
 
-    // SCRUB VIDEO PARALLAX
-    const video = document.getElementById('hero-video');
+    // SCRUB VIDEO → CANVAS (sem botão de play nativo no iOS)
+    const video  = document.getElementById('hero-video');
+    const canvas = document.getElementById('hero-canvas');
+    const ctx    = canvas.getContext('2d');
+
+    // Dimensiona o canvas ao tamanho real do container
+    function resizeCanvas() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Desenha um frame no canvas respeitando cover (mobile) ou contain (desktop)
+    function drawVideoFrame() {
+        if (video.readyState < 2) return;
+        const cw = canvas.width, ch = canvas.height;
+        const vw = video.videoWidth, vh = video.videoHeight;
+        if (!cw || !ch || !vw || !vh) return;
+        const cRatio = cw / ch, vRatio = vw / vh;
+        ctx.clearRect(0, 0, cw, ch);
+        if (window.innerWidth < 640) {
+            // object-cover: preenche sem deformar, corta o excesso
+            if (vRatio > cRatio) {
+                const w = ch * vRatio;
+                ctx.drawImage(video, -(w - cw) / 2, 0, w, ch);
+            } else {
+                const h = cw / vRatio;
+                ctx.drawImage(video, 0, -(h - ch) / 2, cw, h);
+            }
+        } else {
+            // object-contain: encaixa inteiro, barras pretas nas laterais
+            if (vRatio > cRatio) {
+                const h = cw / vRatio;
+                ctx.drawImage(video, 0, (ch - h) / 2, cw, h);
+            } else {
+                const w = ch * vRatio;
+                ctx.drawImage(video, (cw - w) / 2, 0, w, ch);
+            }
+        }
+    }
 
     // Para o autoplay assim que os metadados carregam, mantendo o primeiro frame visível
     const stopAutoplay = () => {
@@ -67,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (Math.abs(targetTime - lerpTime) > 0.0005) {
             video.currentTime = lerpTime;
         }
+        drawVideoFrame();
     })();
 
     let scrollInit = false;
