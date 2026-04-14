@@ -96,32 +96,27 @@ document.addEventListener("DOMContentLoaded", () => {
         video.addEventListener('loadedmetadata', stopAutoplay, { once: true });
     }
 
-    // Lerp suave frame-rate independent: usa delta-time p/ ser igual em 60Hz e 120Hz
+    // Lerp suave + seek-queue drain: só inicia novo seek após o anterior terminar
+    // Evita fila de seeks que congesta o decoder e causa travamento (especialmente iOS)
     let targetTime = 0;
     let lerpTime   = 0;
-    let lastRafTs  = 0;
-    const LERP_SPEED = 10; // velocidade de acompanhamento (s⁻¹)
+    let isSeeking  = false;
 
-    // Desenha assim que o seek termina — sem esperar o próximo tick do RAF
-    video.addEventListener('seeked', drawVideoFrame);
+    video.addEventListener('seeked', () => {
+        isSeeking = false;
+        drawVideoFrame(); // desenha o frame assim que estiver pronto
+    });
 
-    (function rafLoop(ts) {
+    (function rafLoop() {
         requestAnimationFrame(rafLoop);
         if (!video.duration) return;
-
-        const dt   = lastRafTs ? Math.min((ts - lastRafTs) / 1000, 0.05) : 0.016;
-        lastRafTs  = ts;
-
-        const diff = targetTime - lerpTime;
-        lerpTime  += diff * (1 - Math.exp(-LERP_SPEED * dt));
-
-        if (Math.abs(diff) > 0.001) {
-            // fastSeek sacrifica precisão em troca de velocidade — ideal p/ scrub
-            if (video.fastSeek) video.fastSeek(lerpTime);
-            else video.currentTime = lerpTime;
+        lerpTime += (targetTime - lerpTime) * 0.1;
+        if (!isSeeking && Math.abs(targetTime - lerpTime) > 0.001) {
+            isSeeking = true;
+            video.currentTime = lerpTime;
         }
         drawVideoFrame();
-    })(0);
+    })();
 
     let scrollInit = false;
 
@@ -135,7 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
             end: "bottom bottom",
             onUpdate: (self) => {
                 if (video.duration > 0) {
-                    targetTime = video.duration * self.progress;
+                    // 0.35 → vídeo percorre só 35% da duração durante o scroll inteiro,
+                    // parecendo ~3× mais lento / na velocidade natural de visualização
+                    targetTime = video.duration * self.progress * 0.95;
                 }
             }
         });
