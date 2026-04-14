@@ -75,14 +75,14 @@
             <!-- Vídeo Fixo (Sticky) -->
             <div class="sticky top-0 w-full h-screen overflow-hidden z-0 flex items-center justify-center">
                 <!-- Vídeo adaptado para preencher a tela mantendo a proporção -->
-                <video id="hero-video" src="./assets/videos/hero-video.mp4" autoplay muted playsinline webkit-playsinline preload="auto" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" x-webkit-airplay="deny" class="w-full h-full object-cover sm:object-contain bg-[#f5f5f5] pointer-events-none"></video>
+                <video id="hero-video" src="./assets/videos/hero-video.mov" autoplay muted playsinline webkit-playsinline preload="auto" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" x-webkit-airplay="deny" class="w-full h-full object-cover sm:object-contain bg-[#0a0a0a] pointer-events-none"></video>
             </div>
 
             <!-- Container único no rodapé do primeiro viewport -->
             <div id="hero-text-layer" class="absolute top-0 left-0 w-full h-[100vh] z-10 flex flex-col justify-end items-center px-6 pb-[3vh] md:pb-[6vh] pointer-events-none">
                 
                 <!-- Subtítulo Fino e Elegante (centralizado acima do bloco) -->
-                <h2 class="hero-stagger opacity-0 mb-4 text-[0.65rem] md:text-[0.75rem] font-space font-semibold tracking-[0.4em] uppercase text-neutral-950 text-center">
+                <h2 class="hero-stagger opacity-0 mb-4 text-[0.65rem] md:text-[0.75rem] font-space font-semibold tracking-[0.4em] uppercase text-white text-center">
                     Lifestyle caps collection
                 </h2>
 
@@ -90,7 +90,7 @@
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 pointer-events-auto">
                     
                     <!-- Título Principal Reduzido numa linha só -->
-                    <h1 class="hero-title text-5xl md:text-6xl lg:text-[5rem] xl:text-[6rem] leading-[0.9] font-oswald font-bold text-neutral-950 uppercase tracking-tighter mix-blend-darken text-center">
+                    <h1 class="hero-title text-5xl md:text-6xl lg:text-[5rem] xl:text-[6rem] leading-[0.9] font-oswald font-bold text-white uppercase tracking-tighter text-center">
                         Bonés Owell® 2026
                     </h1>
 
@@ -102,129 +102,6 @@
                         </a>
                     </div>
 
-                </div>
-            </div>
-        </section>
-
-        <!-- Carousel de Produtos -->
-        <section class="min-h-screen bg-white relative z-20 pt-32 pb-32 px-6 md:px-12 xl:px-24 border-t border-black/5 overflow-hidden" id="colecao">
-            <div class="max-w-[90rem] mx-auto">
-                <div class="flex justify-between items-end mb-12">
-                    <div class="text-left section-title opacity-0 translate-y-10">
-                        <p class="text-caribe-500 font-space font-semibold uppercase tracking-[0.3em] text-[0.65rem] md:text-xs mb-3">Owell Original</p>
-                        <h2 class="text-4xl md:text-5xl lg:text-6xl font-oswald font-medium text-neutral-950 uppercase tracking-tighter">Collection 2026</h2>
-                    </div>
-                    
-                    <!-- Swiper Navigation (Desktop) -->
-                    <div class="hidden md:flex gap-3 section-title opacity-0 translate-y-10">
-                        <button class="swiper-button-prev-custom w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
-                        </button>
-                        <button class="swiper-button-next-custom w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Swiper Wrapper -->
-                <div class="swiper product-swiper overflow-visible pb-12">
-                    <div class="swiper-wrapper">
-                        
-                        <!-- Produto 1 -->
-                        <div class="swiper-slide h-auto">
-                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full">
-                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[2rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
-                                    <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="w-full h-full block cursor-pointer">
-                                        <img src="./assets/images/bone-essential-preto.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Essential Preto">
-                                    </a>
-                                </div>
-                                <div class="px-2 flex-grow flex flex-col text-left">
-                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Essential</h3>
-                                    <div class="font-mono text-xs text-neutral-400 mb-2">Preto</div>
-                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 94,90</div>
-                                    <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
-                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
-                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
-                                            Comprar Agora
-                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Produto 2 -->
-                        <div class="swiper-slide h-auto">
-                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full">
-                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[2rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
-                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="w-full h-full block cursor-pointer">
-                                        <img src="./assets/images/bone-hawaii-bege-caribe.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Hawaii Bege e Caribe">
-                                    </a>
-                                </div>
-                                <div class="px-2 flex-grow flex flex-col text-left">
-                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Hawaii</h3>
-                                    <div class="font-mono text-xs text-neutral-400 mb-2">Bege e Caribe</div>
-                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 119,90</div>
-                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
-                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
-                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
-                                            Comprar Agora
-                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Produto 3 -->
-                        <div class="swiper-slide h-auto">
-                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full">
-                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[2rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
-                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="w-full h-full block cursor-pointer">
-                                        <img src="./assets/images/bone-hawaii-preto.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Hawaii Preto">
-                                    </a>
-                                </div>
-                                <div class="px-2 flex-grow flex flex-col text-left">
-                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Hawaii</h3>
-                                    <div class="font-mono text-xs text-neutral-400 mb-2">Preto Clássico</div>
-                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 119,90</div>
-                                    <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
-                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
-                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
-                                            Comprar Agora
-                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Produto 4 -->
-                        <div class="swiper-slide h-auto">
-                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full">
-                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[2rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
-                                    <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank" class="w-full h-full block cursor-pointer">
-                                        <img src="./assets/images/bone-jasmim-marrom.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Boné Jasmim Marrom">
-                                    </a>
-                                </div>
-                                <div class="px-2 flex-grow flex flex-col text-left">
-                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Boné Jasmim</h3>
-                                    <div class="font-mono text-xs text-neutral-400 mb-2">Marrom</div>
-                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 139,90</div>
-                                    <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
-                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
-                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
-                                            Comprar Agora
-                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- Swiper Pagination (Mobile) -->
-                    <div class="swiper-pagination !bottom-0 md:!hidden"></div>
                 </div>
             </div>
         </section>
@@ -271,11 +148,11 @@
             <!-- ============================================================ -->
             <div class="md:hidden relative z-20 w-full px-6 pb-8 flex flex-col">
 
-                <!-- Botão Jasmim — estética "Discover More" -->
-                <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank"
+                <!-- Botão Six Panel Bowl Chumbo — estética "Discover More" -->
+                <a href="https://www.owell.com.br/produtos/bone-owell-bowl-grafite" target="_blank"
                    class="lookbook-right-btn w-full group flex items-center justify-between border border-white/45 bg-white/[0.07] backdrop-blur-xl rounded-full px-6 h-[54px] hover:bg-white/[0.14] hover:border-white/70 transition-all duration-500 shadow-xl relative overflow-hidden mb-5">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/8 to-transparent skew-x-[-20deg]"></div>
-                    <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.22em] text-white relative z-10">Boné Owell® Jasmim</span>
+                    <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.22em] text-white relative z-10">Six Panel Bowl® Chumbo</span>
                     <svg class="w-4 h-4 text-white/55 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 relative z-10 flex-shrink-0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </a>
 
@@ -293,44 +170,44 @@
                 <div id="mobile-cards-container" style="position: relative; height: 76px;">
 
                     <!-- Card 1 — topo do deck -->
-                    <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank"
+                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-preto" target="_blank"
                        class="lookbook-card-mobile group flex items-center gap-3 h-[60px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-5 shadow-2xl overflow-hidden relative hover:bg-white/20 hover:border-white/45 transition-colors duration-300"
                        style="position: absolute; top: 0; left: 0; right: 0; z-index: 3;">
                         <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                            <img src="./assets/images/bone-essential-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="./assets/images/bone-bowl-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                         </div>
                         <div class="flex flex-col justify-center relative z-10 text-left">
-                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Boné Essential</span>
-                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 94,90</span>
+                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Six Panel Bowl Preto</span>
+                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 159,90</span>
                         </div>
                     </a>
 
                     <!-- Card 2 -->
-                    <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank"
+                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-off-verde/" target="_blank"
                        class="lookbook-card-mobile group flex items-center gap-3 h-[60px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-5 shadow-2xl overflow-hidden relative hover:bg-white/20 hover:border-white/45 transition-colors duration-300"
                        style="position: absolute; top: 0; left: 0; right: 0; z-index: 2;">
                         <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                            <img src="./assets/images/bone-hawaii-bege-caribe.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="./assets/images/bone-bowl-off-verde.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                         </div>
                         <div class="flex flex-col justify-center relative z-10 text-left">
-                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Boné Hawaii Bege</span>
-                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Six Panel Bowl Off Verde</span>
+                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 159,90</span>
                         </div>
                     </a>
 
                     <!-- Card 3 -->
-                    <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank"
+                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-grafite" target="_blank"
                        class="lookbook-card-mobile group flex items-center gap-3 h-[60px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-5 shadow-2xl overflow-hidden relative hover:bg-white/20 hover:border-white/45 transition-colors duration-300"
                        style="position: absolute; top: 0; left: 0; right: 0; z-index: 1;">
                         <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                            <img src="./assets/images/bone-hawaii-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="./assets/images/bone-bowl-chumbo.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                         </div>
                         <div class="flex flex-col justify-center relative z-10 text-left">
-                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Boné Hawaii Preto</span>
-                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                            <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Six Panel Bowl Chumbo</span>
+                            <span class="text-xs font-oswald text-white/90 tracking-wide mt-0.5">R$ 159,90</span>
                         </div>
                     </a>
 
@@ -341,48 +218,148 @@
             <!-- DESKTOP: Cards de Produtos (Bottom Left) -->
             <div class="hidden md:flex absolute bottom-12 left-16 z-40 flex-nowrap lg:flex-wrap gap-5 lg:w-auto overflow-visible hide-scrollbar" style="min-height: 80px;">
                 <!-- Card 1 -->
-                <a href="https://www.owell.com.br/produtos/bone-essential-g1/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-owell-bowl-preto" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                     <div class="w-12 h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                        <img src="./assets/images/bone-essential-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="./assets/images/bone-bowl-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <div class="flex flex-col justify-center relative z-10 text-left">
-                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Boné Essential</span>
-                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 94,90</span>
+                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Six Panel Bowl Preto</span>
+                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 159,90</span>
                     </div>
                 </a>
                 <!-- Card 2 -->
-                <a href="https://www.owell.com.br/produtos/bone-hawaii-bege-caribe/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-owell-bowl-off-verde/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                     <div class="w-12 h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                        <img src="./assets/images/bone-hawaii-bege-caribe.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="./assets/images/bone-bowl-off-verde.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <div class="flex flex-col justify-center relative z-10 text-left">
-                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Boné Hawaii Bege</span>
-                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Six Panel Bowl Off Verde</span>
+                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 159,90</span>
                     </div>
                 </a>
                 <!-- Card 3 -->
-                <a href="https://www.owell.com.br/produtos/bone-hawaii-preto/" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
+                <a href="https://www.owell.com.br/produtos/bone-owell-bowl-grafite" target="_blank" class="lookbook-card flex-shrink-0 group flex items-center gap-4 h-[72px] bg-white/10 backdrop-blur-2xl border border-white/25 rounded-full px-2 pr-8 hover:-translate-y-2 hover:bg-white/25 hover:border-white/50 hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)] transition-all duration-500 shadow-2xl overflow-hidden relative" style="will-change: transform, opacity;">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                     <div class="w-12 h-12 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                        <img src="./assets/images/bone-hawaii-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                        <img src="./assets/images/bone-bowl-chumbo.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                     </div>
                     <div class="flex flex-col justify-center relative z-10 text-left">
-                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Boné Hawaii Preto</span>
-                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 119,90</span>
+                        <span class="text-[0.65rem] font-space font-bold uppercase tracking-[0.15em] text-white truncate max-w-[140px]">Six Panel Bowl Chumbo</span>
+                        <span class="text-sm font-oswald text-white/90 tracking-wide mt-0.5">R$ 159,90</span>
                     </div>
                 </a>
             </div>
 
-            <!-- DESKTOP: Botão Jasmim (Bottom Right) — estética "Discover More" -->
+            <!-- DESKTOP: Botão Six Panel Bowl Chumbo (Bottom Right) — estética "Discover More" -->
             <div class="hidden md:block absolute bottom-12 right-12 z-40 lookbook-right-btn" style="will-change: transform, opacity;">
-                <a href="https://www.owell.com.br/produtos/bone-jasmim-marrom/" target="_blank"
+                <a href="https://www.owell.com.br/produtos/bone-owell-bowl-grafite" target="_blank"
                    class="group flex items-center gap-6 border border-white/45 bg-white/[0.07] backdrop-blur-xl rounded-full px-8 h-[68px] hover:bg-white/[0.15] hover:border-white/75 hover:-translate-y-2 transition-all duration-500 shadow-2xl relative overflow-hidden">
                     <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/8 to-transparent skew-x-[-20deg]"></div>
-                    <span class="text-xs font-space font-bold uppercase tracking-[0.22em] text-white relative z-10">Boné Owell® Jasmim</span>
+                    <span class="text-xs font-space font-bold uppercase tracking-[0.22em] text-white relative z-10">Six Panel Bowl® Chumbo</span>
                     <svg class="w-4 h-4 text-white/55 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 relative z-10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </a>
+            </div>
+        </section>
+
+        <!-- Carousel de Produtos -->
+        <section class="min-h-screen bg-white relative z-20 pt-32 pb-32 px-6 md:px-12 xl:px-24 border-t border-black/5 overflow-hidden" id="colecao">
+            <div class="max-w-[90rem] mx-auto">
+                <div class="flex justify-between items-end mb-12">
+                    <div class="text-left section-title opacity-0 translate-y-10">
+                        <p class="text-caribe-500 font-space font-semibold uppercase tracking-[0.3em] text-[0.65rem] md:text-xs mb-3">Owell Original</p>
+                        <h2 class="text-4xl md:text-5xl lg:text-6xl font-oswald font-medium text-neutral-950 uppercase tracking-tighter">Collection 2026</h2>
+                    </div>
+
+                    <!-- Swiper Navigation (Desktop) -->
+                    <div class="hidden md:flex gap-3 section-title opacity-0 translate-y-10">
+                        <button class="swiper-button-prev-custom w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                        </button>
+                        <button class="swiper-button-next-custom w-12 h-12 rounded-full border border-neutral-300 bg-white flex items-center justify-center hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition-all shadow-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Swiper Wrapper -->
+                <div class="swiper product-swiper overflow-visible pb-12">
+                    <div class="swiper-wrapper">
+
+                        <!-- Produto 1 -->
+                        <div class="swiper-slide h-auto">
+                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full">
+                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[2rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
+                                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-preto" target="_blank" class="w-full h-full block cursor-pointer">
+                                        <img src="./assets/images/bone-bowl-preto.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Six Panel Bowl Preto">
+                                    </a>
+                                </div>
+                                <div class="px-2 flex-grow flex flex-col text-left">
+                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Six Panel Bowl</h3>
+                                    <div class="font-mono text-xs text-neutral-400 mb-2">Preto</div>
+                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 159,90</div>
+                                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-preto" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
+                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
+                                            Comprar Agora
+                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produto 2 -->
+                        <div class="swiper-slide h-auto">
+                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full">
+                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[2rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
+                                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-off-verde/" target="_blank" class="w-full h-full block cursor-pointer">
+                                        <img src="./assets/images/bone-bowl-off-verde.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Six Panel Bowl Off White e Verde">
+                                    </a>
+                                </div>
+                                <div class="px-2 flex-grow flex flex-col text-left">
+                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Six Panel Bowl</h3>
+                                    <div class="font-mono text-xs text-neutral-400 mb-2">Off White e Verde</div>
+                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 159,90</div>
+                                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-off-verde/" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
+                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
+                                            Comprar Agora
+                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produto 3 -->
+                        <div class="swiper-slide h-auto">
+                            <div class="product-card opacity-0 translate-y-16 bg-white hover:border-neutral-900 transition-all duration-500 rounded-[2.5rem] p-4 md:p-5 w-full flex flex-col group relative overflow-hidden border border-neutral-200 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-2 h-full">
+                                <div class="w-full aspect-[5/4] md:aspect-[4/3] bg-white rounded-[2rem] overflow-hidden mb-4 relative flex items-center justify-center p-4">
+                                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-grafite" target="_blank" class="w-full h-full block cursor-pointer">
+                                        <img src="./assets/images/bone-bowl-chumbo.jpg" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]" alt="Six Panel Bowl Chumbo">
+                                    </a>
+                                </div>
+                                <div class="px-2 flex-grow flex flex-col text-left">
+                                    <h3 class="font-space font-bold uppercase tracking-widest text-neutral-950 text-sm md:text-base mb-1">Six Panel Bowl</h3>
+                                    <div class="font-mono text-xs text-neutral-400 mb-2">Chumbo</div>
+                                    <div class="font-oswald text-2xl text-neutral-900 mb-6 mt-auto">R$ 159,90</div>
+                                    <a href="https://www.owell.com.br/produtos/bone-owell-bowl-grafite" target="_blank" class="w-full relative group/btn transition-all duration-300 overflow-hidden font-medium text-neutral-950 bg-white border border-neutral-300 hover:border-neutral-900 rounded-full pt-4 pb-4 shadow-sm hover:shadow-xl mt-auto block text-center">
+                                        <div class="group-hover/btn:translate-y-0 transition-transform duration-500 bg-neutral-950 absolute top-0 right-0 bottom-0 left-0 translate-y-full ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
+                                        <span class="relative z-10 flex items-center justify-center gap-2 text-[0.65rem] md:text-xs font-bold tracking-[0.2em] uppercase group-hover/btn:text-white transition-colors duration-300">
+                                            Comprar Agora
+                                            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Swiper Pagination (Mobile) -->
+                    <div class="swiper-pagination !bottom-0 md:!hidden"></div>
+                </div>
             </div>
         </section>
 
