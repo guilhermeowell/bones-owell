@@ -96,18 +96,32 @@ document.addEventListener("DOMContentLoaded", () => {
         video.addEventListener('loadedmetadata', stopAutoplay, { once: true });
     }
 
-    // Lerp suave: targetTime atualiza no scroll, lerpTime segue com inércia via RAF
+    // Lerp suave frame-rate independent: usa delta-time p/ ser igual em 60Hz e 120Hz
     let targetTime = 0;
     let lerpTime   = 0;
-    (function rafLoop() {
+    let lastRafTs  = 0;
+    const LERP_SPEED = 10; // velocidade de acompanhamento (s⁻¹)
+
+    // Desenha assim que o seek termina — sem esperar o próximo tick do RAF
+    video.addEventListener('seeked', drawVideoFrame);
+
+    (function rafLoop(ts) {
         requestAnimationFrame(rafLoop);
         if (!video.duration) return;
-        lerpTime += (targetTime - lerpTime) * 0.1;
-        if (Math.abs(targetTime - lerpTime) > 0.0005) {
-            video.currentTime = lerpTime;
+
+        const dt   = lastRafTs ? Math.min((ts - lastRafTs) / 1000, 0.05) : 0.016;
+        lastRafTs  = ts;
+
+        const diff = targetTime - lerpTime;
+        lerpTime  += diff * (1 - Math.exp(-LERP_SPEED * dt));
+
+        if (Math.abs(diff) > 0.001) {
+            // fastSeek sacrifica precisão em troca de velocidade — ideal p/ scrub
+            if (video.fastSeek) video.fastSeek(lerpTime);
+            else video.currentTime = lerpTime;
         }
         drawVideoFrame();
-    })();
+    })(0);
 
     let scrollInit = false;
 
