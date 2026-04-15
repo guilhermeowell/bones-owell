@@ -94,16 +94,20 @@ document.addEventListener("DOMContentLoaded", () => {
     stopOnLoad(videoMobile);
 
     // Lerp suave: targetTime atualiza no scroll, lerpTime segue com inércia via RAF
-    let targetTime = 0;
-    let lerpTime   = 0;
+    let targetTime  = 0;
+    let lerpTime    = 0;
+    let lastDrawn   = -1;
     (function rafLoop() {
         requestAnimationFrame(rafLoop);
         if (!activeVideo.duration) return;
         lerpTime += (targetTime - lerpTime) * 0.14;
-        if (Math.abs(targetTime - lerpTime) > 0.0005) {
-            activeVideo.currentTime = lerpTime;
+        const needsSeek = Math.abs(targetTime - lerpTime) > 0.0005;
+        if (needsSeek) activeVideo.currentTime = lerpTime;
+        // Só redesenha quando o frame efetivamente mudou
+        if (activeVideo.currentTime !== lastDrawn) {
+            lastDrawn = activeVideo.currentTime;
+            drawVideoFrame();
         }
-        drawVideoFrame();
     })();
 
     // Ajusta a altura da hero no mobile para encerrar exatamente com o vídeo,
