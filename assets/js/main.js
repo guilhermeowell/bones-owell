@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener("DOMContentLoaded", () => {
     
-    // Header animation
+    // Header animation (entrada)
     gsap.to('.header-el', {
         opacity: 1,
         y: 0,
@@ -22,6 +22,30 @@ document.addEventListener("DOMContentLoaded", () => {
         stagger: 0.1,
         ease: "power3.out",
         delay: 0.1
+    });
+
+    // Header: some ao rolar para baixo, aparece ao rolar para cima
+    const siteHeader = document.getElementById('site-header');
+    let lastScrollY = 0;
+    let headerHidden = false;
+    lenis.on('scroll', ({ scroll }) => {
+        const delta = scroll - lastScrollY;
+        lastScrollY = scroll;
+        // Só aplica o comportamento após 80px de scroll (evita piscar no topo)
+        if (scroll < 80) {
+            if (headerHidden) {
+                gsap.to(siteHeader, { y: 0, duration: 0.4, ease: 'power2.out' });
+                headerHidden = false;
+            }
+            return;
+        }
+        if (delta > 0 && !headerHidden) {
+            gsap.to(siteHeader, { y: '-110%', duration: 0.35, ease: 'power2.in' });
+            headerHidden = true;
+        } else if (delta < 0 && headerHidden) {
+            gsap.to(siteHeader, { y: 0, duration: 0.4, ease: 'power2.out' });
+            headerHidden = false;
+        }
     });
 
     // Splitting typography
