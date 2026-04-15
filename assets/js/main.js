@@ -44,7 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }, "-=0.8");
 
     // SCRUB VIDEO → CANVAS (sem botão de play nativo no iOS)
-    const video  = document.getElementById('hero-video');
+    const videoDesktop = document.getElementById('hero-video');
+    const videoMobile  = document.getElementById('hero-video-mobile');
+    const mobileQuery  = window.matchMedia('(max-width: 767px)');
+    let video = mobileQuery.matches ? videoMobile : videoDesktop;
     const canvas = document.getElementById('hero-canvas');
     const ctx    = canvas.getContext('2d');
 
@@ -75,15 +78,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Para o autoplay assim que os metadados carregam, mantendo o primeiro frame visível
-    const stopAutoplay = () => {
-        video.pause();
-        video.currentTime = 0;
-    };
-    if (video.readyState >= 1) {
-        stopAutoplay();
-    } else {
-        video.addEventListener('loadedmetadata', stopAutoplay, { once: true });
+    function stopVideoAutoplay(v) {
+        v.pause();
+        v.currentTime = 0;
     }
+    [videoDesktop, videoMobile].forEach(v => {
+        if (v.readyState >= 1) {
+            stopVideoAutoplay(v);
+        } else {
+            v.addEventListener('loadedmetadata', () => stopVideoAutoplay(v), { once: true });
+        }
+    });
 
     // Lerp suave: targetTime atualiza no scroll, lerpTime segue com inércia via RAF
     let targetTime = 0;
@@ -97,6 +102,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         drawVideoFrame();
     })();
+
+    // Troca o vídeo ativo ao cruzar o breakpoint mobile/desktop
+    mobileQuery.addEventListener('change', (e) => {
+        video = e.matches ? videoMobile : videoDesktop;
+        targetTime = 0;
+        lerpTime   = 0;
+        video.currentTime = 0;
+    });
 
     let scrollInit = false;
 
@@ -127,11 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    if (video.readyState >= 1) {
+    const activeVideo = mobileQuery.matches ? videoMobile : videoDesktop;
+    if (activeVideo.readyState >= 1) {
         initVideoScroll();
     } else {
-        video.addEventListener('loadedmetadata', initVideoScroll);
-        video.addEventListener('canplay', initVideoScroll);
+        activeVideo.addEventListener('loadedmetadata', initVideoScroll);
+        activeVideo.addEventListener('canplay', initVideoScroll);
         setTimeout(initVideoScroll, 3000);
     }
 
