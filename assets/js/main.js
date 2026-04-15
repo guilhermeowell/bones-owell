@@ -46,8 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // SCRUB VIDEO → CANVAS (sem botão de play nativo no iOS)
     const videoDesktop = document.getElementById('hero-video');
     const videoMobile  = document.getElementById('hero-video-mobile');
+    const heroSection  = document.getElementById('hero');
     const mobileQuery  = window.matchMedia('(max-width: 767px)');
-    let video = mobileQuery.matches ? videoMobile : videoDesktop;
+    let activeVideo = mobileQuery.matches ? videoMobile : videoDesktop;
     const canvas = document.getElementById('hero-canvas');
     const ctx    = canvas.getContext('2d');
 
@@ -61,69 +62,108 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Desenha um frame no canvas — object-cover em todos os tamanhos (100% largura)
     function drawVideoFrame() {
-        if (video.readyState < 2) return;
+        if (activeVideo.readyState < 2) return;
         const cw = canvas.width, ch = canvas.height;
-        const vw = video.videoWidth, vh = video.videoHeight;
+        const vw = activeVideo.videoWidth, vh = activeVideo.videoHeight;
         if (!cw || !ch || !vw || !vh) return;
         const cRatio = cw / ch, vRatio = vw / vh;
         ctx.clearRect(0, 0, cw, ch);
         // object-cover: preenche sem deformar, corta o excesso (sem barras pretas)
         if (vRatio > cRatio) {
             const w = ch * vRatio;
-            ctx.drawImage(video, -(w - cw) / 2, 0, w, ch);
+            ctx.drawImage(activeVideo, -(w - cw) / 2, 0, w, ch);
         } else {
             const h = cw / vRatio;
-            ctx.drawImage(video, 0, -(h - ch) / 2, cw, h);
+            ctx.drawImage(activeVideo, 0, -(h - ch) / 2, cw, h);
         }
     }
 
-    // Para o autoplay assim que os metadados carregam, mantendo o primeiro frame visível
-    function stopVideoAutoplay(v) {
-        v.pause();
-        v.currentTime = 0;
+    // No mobile, inicia o carregamento do vídeo mobile agora; desktop fica com preload="none"
+    if (mobileQuery.matches) {
+        videoMobile.preload = 'auto';
+        videoMobile.load();
     }
-    [videoDesktop, videoMobile].forEach(v => {
-        if (v.readyState >= 1) {
-            stopVideoAutoplay(v);
-        } else {
-            v.addEventListener('loadedmetadata', () => stopVideoAutoplay(v), { once: true });
-        }
-    });
+
+    // Para o autoplay assim que os metadados carregam, mantendo o primeiro frame visível
+    const stopOnLoad = (v) => {
+        const stop = () => { v.pause(); v.currentTime = 0; };
+        if (v.readyState >= 1) stop();
+        else v.addEventListener('loadedmetadata', stop, { once: true });
+    };
+    stopOnLoad(videoDesktop);
+    stopOnLoad(videoMobile);
 
     // Lerp suave: targetTime atualiza no scroll, lerpTime segue com inércia via RAF
     let targetTime = 0;
     let lerpTime   = 0;
     (function rafLoop() {
         requestAnimationFrame(rafLoop);
-        if (!video.duration) return;
-        lerpTime += (targetTime - lerpTime) * 0.1;
+        if (!activeVideo.duration) return;
+        lerpTime += (targetTime - lerpTime) * 0.14;
         if (Math.abs(targetTime - lerpTime) > 0.0005) {
-            video.currentTime = lerpTime;
+            activeVideo.currentTime = lerpTime;
         }
         drawVideoFrame();
     })();
 
+    // Ajusta a altura da hero no mobile para encerrar exatamente com o vídeo,
+    // mantendo a mesma velocidade de scrub do desktop (200vh / duração desktop).
+    function adjustMobileHeroHeight() {
+        if (!mobileQuery.matches) return;
+        if (!videoDesktop.duration || !videoMobile.duration) return;
+        const mobileVh = Math.round(200 * videoMobile.duration / videoDesktop.duration);
+        heroSection.style.height = mobileVh + 'vh';
+    }
+
+    // Quando os metadados do vídeo mobile carregam, ajusta a altura e atualiza o ScrollTrigger
+    function onMobileMetadataReady() {
+        adjustMobileHeroHeight();
+        if (heroScrollTrigger) ScrollTrigger.refresh();
+    }
+    if (videoMobile.readyState >= 1) onMobileMetadataReady();
+    else videoMobile.addEventListener('loadedmetadata', onMobileMetadataReady, { once: true });
+
+    // O desktop também precisa dos metadados para calcular o ratio — listener leve
+    if (!videoDesktop.duration) {
+        videoDesktop.addEventListener('loadedmetadata', onMobileMetadataReady, { once: true });
+    }
+
     // Troca o vídeo ativo ao cruzar o breakpoint mobile/desktop
+    let heroScrollTrigger = null;
     mobileQuery.addEventListener('change', (e) => {
-        video = e.matches ? videoMobile : videoDesktop;
+        activeVideo = e.matches ? videoMobile : videoDesktop;
         targetTime = 0;
         lerpTime   = 0;
-        video.currentTime = 0;
+        activeVideo.currentTime = 0;
+        // No mobile, garante que o vídeo mobile está carregando
+        if (e.matches) {
+            videoMobile.preload = 'auto';
+            videoMobile.load();
+        }
+        // Recria o ScrollTrigger com a altura correta para o novo breakpoint
+        if (heroScrollTrigger) { heroScrollTrigger.kill(); heroScrollTrigger = null; }
+        scrollInit = false;
+        heroSection.style.height = '';
+        if (e.matches) {
+            adjustMobileHeroHeight();
+        }
+        ScrollTrigger.refresh();
+        initVideoScroll();
     });
 
     let scrollInit = false;
 
-    const initVideoScroll = () => {
+    function initVideoScroll() {
         if (scrollInit) return;
         scrollInit = true;
 
-        ScrollTrigger.create({
+        heroScrollTrigger = ScrollTrigger.create({
             trigger: "#hero",
             start: "top top",
             end: "bottom bottom",
             onUpdate: (self) => {
-                if (video.duration > 0) {
-                    targetTime = video.duration * self.progress;
+                if (activeVideo.duration > 0) {
+                    targetTime = activeVideo.duration * self.progress;
                 }
             }
         });
@@ -138,9 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 scrub: true
             }
         });
-    };
+    }
 
-    const activeVideo = mobileQuery.matches ? videoMobile : videoDesktop;
     if (activeVideo.readyState >= 1) {
         initVideoScroll();
     } else {
