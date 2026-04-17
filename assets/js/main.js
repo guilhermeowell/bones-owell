@@ -375,6 +375,35 @@ document.addEventListener("DOMContentLoaded", () => {
         clearProps: "all"
     });
 
+    // Features Section Animation
+    gsap.to(".feature-title", {
+        y: 0, opacity: 1, duration: 1, ease: "power3.out",
+        scrollTrigger: { trigger: "#features", start: "top 80%" }
+    });
+
+    ScrollTrigger.batch(".feature-card", {
+        onEnter: batch => gsap.to(batch, {
+            y: 0, opacity: 1,
+            stagger: 0.15, duration: 1.2, ease: "power3.out"
+        }),
+        start: "top 85%"
+    });
+
+    gsap.from(".feature-cta", {
+        opacity: 0, y: 24, duration: 1.1, ease: "power3.out",
+        scrollTrigger: { trigger: ".feature-cta", start: "top 90%" }
+    });
+
+    // Footer Animation
+    gsap.from(".footer-logo", {
+        opacity: 0, y: 20, duration: 1.2, ease: "power3.out",
+        scrollTrigger: { trigger: "#site-footer", start: "top bottom" }
+    });
+    gsap.from(".footer-tagline", {
+        opacity: 0, y: 20, duration: 1.2, delay: 0.25, ease: "power3.out",
+        scrollTrigger: { trigger: "#site-footer", start: "top bottom" }
+    });
+
     // ─── Mobile Lookbook Toggle ────────────────────────────────────────────
     const mobileToggleBtn      = document.getElementById('mobile-toggle-btn');
     const mobileCardsContainer = document.getElementById('mobile-cards-container');
