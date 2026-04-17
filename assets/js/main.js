@@ -28,7 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const siteHeader = document.getElementById('site-header');
     let lastScrollY = 0;
     let headerHidden = false;
+    let introTween = null;
     lenis.on('scroll', ({ scroll }) => {
+        // Cancela o avanço intro do vídeo assim que o usuário começa a scrollar
+        if (introTween && scroll > 0) { introTween.kill(); introTween = null; }
         const delta = scroll - lastScrollY;
         lastScrollY = scroll;
         // Só aplica o comportamento após 80px de scroll (evita piscar no topo)
@@ -48,6 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Hero CTA: scroll suave para baixo ao clicar (hint de que deve scrollar)
+    document.getElementById('hero-cta-btn').addEventListener('click', () => {
+        lenis.scrollTo(window.innerHeight * 0.6, { duration: 1.4, easing: (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t });
+    });
+
     // Splitting typography
     const heroText = new SplitType('.hero-title', { types: 'chars, words' });
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
@@ -65,7 +73,23 @@ document.addEventListener("DOMContentLoaded", () => {
         y: -10,
         stagger: 0.1,
         duration: 1
-    }, "-=0.8");
+    }, "-=0.8")
+    .add(() => {
+        // Após as animações, avança o vídeo 5% gradualmente
+        const startIntroAdvance = () => {
+            if (!activeVideo.duration || targetTime > 0) return;
+            const proxy = { t: 0 };
+            introTween = gsap.to(proxy, {
+                t: activeVideo.duration * 0.05,
+                duration: 2.5,
+                ease: 'power2.inOut',
+                onUpdate: () => { targetTime = proxy.t; },
+                onComplete: () => { introTween = null; }
+            });
+        };
+        if (activeVideo.readyState >= 1) startIntroAdvance();
+        else activeVideo.addEventListener('loadedmetadata', startIntroAdvance, { once: true });
+    });
 
     // SCRUB VIDEO → CANVAS (sem botão de play nativo no iOS)
     const videoDesktop = document.getElementById('hero-video');
@@ -116,6 +140,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     stopOnLoad(videoDesktop);
     stopOnLoad(videoMobile);
+
+    // Desenha o primeiro frame assim que o vídeo tiver dados suficientes
+    const drawFirstFrame = () => { if (activeVideo.readyState >= 2) drawVideoFrame(); };
+    if (activeVideo.readyState >= 2) drawFirstFrame();
+    else {
+        activeVideo.addEventListener('canplay',    drawFirstFrame, { once: true });
+        activeVideo.addEventListener('loadeddata', drawFirstFrame, { once: true });
+    }
 
     // Lerp suave: targetTime atualiza no scroll, lerpTime segue com inércia via RAF
     let targetTime  = 0;
