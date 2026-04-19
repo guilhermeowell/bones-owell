@@ -1,5 +1,7 @@
-// Detect Android — MOV video and Lenis smooth scroll have compatibility issues on Android
+// Detect device type
 const isAndroid = /Android/i.test(navigator.userAgent);
+// Mobile (iOS + Android): hero em autoplay simples, sem scroll scrub
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 // Init Lenis smooth scroll — disabled on Android (native scroll is more compatible)
 let lenis = null;
@@ -72,8 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // targetTime/lerpTime para o scroll scrub (desktop/iOS)
     let targetTime = 0, lerpTime = 0, lastDrawn = -1;
 
-    if (isAndroid) {
-        // Android: hero simples — vídeo em autoplay/loop, sem canvas, sem scroll scrub
+    if (isMobile) {
+        // Mobile (iOS + Android): hero simples — vídeo em autoplay/loop, sem canvas, sem scroll scrub
         heroSection.style.height = '100vh';
         canvas.style.display = 'none';
         videoDesktop.preload = 'none';
@@ -88,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         videoMobile.load();
         videoMobile.play().catch(() => {});
     } else {
-        // Não-Android: canvas + scroll scrub
+        // Desktop: canvas + scroll scrub
         function resizeCanvas() {
             canvas.width  = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
@@ -139,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })();
     }
 
-    if (!isAndroid) {
+    if (!isMobile) {
         function adjustMobileHeroHeight() {
             if (!mobileQuery.matches) return;
             if (!videoDesktop.duration || !videoMobile.duration) return;
@@ -164,10 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ─── HERO TYPOGRAPHY ──────────────────────────────────────────────────
-    // Android: pula SplitType (pode crashar o timeline) — anima o título inteiro
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-    if (isAndroid) {
+    if (isMobile) {
         tl.from('.hero-title', { opacity: 0, y: 30, duration: 1, delay: 0.2, immediateRender: false })
           .to('.hero-stagger', { opacity: 1, y: -10, stagger: 0.1, duration: 1 }, "-=0.5");
     } else {
@@ -196,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ─── HERO SCROLL TRIGGER ──────────────────────────────────────────────
     let heroScrollTrigger = null, scrollInit = false;
 
-    if (!isAndroid) {
+    if (!isMobile) {
         function initVideoScroll() {
             if (scrollInit) return;
             scrollInit = true;
@@ -305,8 +306,8 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollTrigger: { trigger: "#site-footer", start: "top bottom" }
     });
 
-    // No Android: recalcula posições do ScrollTrigger após layout e imagens carregarem
-    if (isAndroid) {
+    // Mobile: recalcula posições do ScrollTrigger após layout e imagens carregarem
+    if (isMobile) {
         setTimeout(() => ScrollTrigger.refresh(), 500);
         window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
     }
