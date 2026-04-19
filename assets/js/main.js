@@ -89,7 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
         videoMobile.muted = true;
         videoMobile.preload = 'auto';
         videoMobile.load();
-        videoMobile.play().catch(() => {});
+        videoMobile.play().catch(() => {
+            // Low Power Mode ou política do browser bloqueou autoplay — exibe poster estático
+            const poster = document.getElementById('hero-mobile-poster');
+            if (poster) poster.style.display = 'block';
+            videoMobile.style.display = 'none';
+        });
     } else {
         // Desktop: canvas + scroll scrub
         function resizeCanvas() {
