@@ -84,8 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
             position: 'absolute', inset: '0', width: '100%', height: '100%',
             objectFit: 'cover', opacity: '1', pointerEvents: 'none'
         });
-        videoMobile.autoplay = true;
-        videoMobile.loop = true;
+        videoMobile.setAttribute('autoplay', '');
+        videoMobile.setAttribute('loop', '');
+        videoMobile.muted = true;
         videoMobile.preload = 'auto';
         videoMobile.load();
         videoMobile.play().catch(() => {});
