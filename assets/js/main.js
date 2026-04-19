@@ -69,68 +69,67 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById('hero-canvas');
     const ctx    = canvas.getContext('2d');
 
-    // targetTime/lerpTime declarados no escopo externo para acesso em todo o código
+    // targetTime/lerpTime para o scroll scrub (desktop/iOS)
     let targetTime = 0, lerpTime = 0, lastDrawn = -1;
 
-    // No Android: não carrega o vídeo desktop (economiza banda)
     if (isAndroid) {
+        // Android: hero simples — vídeo em autoplay/loop, sem canvas, sem scroll scrub
+        heroSection.style.height = '100vh';
+        canvas.style.display = 'none';
         videoDesktop.preload = 'none';
         videoDesktop.removeAttribute('src');
-    }
-
-    function resizeCanvas() {
-        canvas.width  = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    function drawVideoFrame() {
-        if (activeVideo.readyState < 2) return;
-        const cw = canvas.width, ch = canvas.height;
-        const vw = activeVideo.videoWidth, vh = activeVideo.videoHeight;
-        if (!cw || !ch || !vw || !vh) return;
-        const cRatio = cw / ch, vRatio = vw / vh;
-        ctx.clearRect(0, 0, cw, ch);
-        if (vRatio > cRatio) {
-            const w = ch * vRatio;
-            ctx.drawImage(activeVideo, -(w - cw) / 2, 0, w, ch);
-        } else {
-            const h = cw / vRatio;
-            ctx.drawImage(activeVideo, 0, -(h - ch) / 2, cw, h);
+        Object.assign(videoMobile.style, {
+            position: 'absolute', inset: '0', width: '100%', height: '100%',
+            objectFit: 'cover', opacity: '1', pointerEvents: 'none'
+        });
+        videoMobile.autoplay = true;
+        videoMobile.loop = true;
+        videoMobile.preload = 'auto';
+        videoMobile.load();
+        videoMobile.play().catch(() => {});
+    } else {
+        // Não-Android: canvas + scroll scrub
+        function resizeCanvas() {
+            canvas.width  = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
         }
-    }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-    if (mobileQuery.matches) { videoMobile.preload = 'auto'; videoMobile.load(); }
+        function drawVideoFrame() {
+            if (activeVideo.readyState < 2) return;
+            const cw = canvas.width, ch = canvas.height;
+            const vw = activeVideo.videoWidth, vh = activeVideo.videoHeight;
+            if (!cw || !ch || !vw || !vh) return;
+            const cRatio = cw / ch, vRatio = vw / vh;
+            ctx.clearRect(0, 0, cw, ch);
+            if (vRatio > cRatio) {
+                const w = ch * vRatio;
+                ctx.drawImage(activeVideo, -(w - cw) / 2, 0, w, ch);
+            } else {
+                const h = cw / vRatio;
+                ctx.drawImage(activeVideo, 0, -(h - ch) / 2, cw, h);
+            }
+        }
 
-    // Garante que os vídeos fiquem pausados no frame 0 (o canvas controla o playback)
-    const stopOnLoad = (v) => {
-        const stop = () => { v.pause(); v.currentTime = 0; };
-        if (v.readyState >= 1) stop();
-        else v.addEventListener('loadedmetadata', stop, { once: true });
-    };
-    if (!isAndroid) {
+        if (mobileQuery.matches) { videoMobile.preload = 'auto'; videoMobile.load(); }
+
+        const stopOnLoad = (v) => {
+            const stop = () => { v.pause(); v.currentTime = 0; };
+            if (v.readyState >= 1) stop();
+            else v.addEventListener('loadedmetadata', stop, { once: true });
+        };
         stopOnLoad(videoDesktop);
         stopOnLoad(videoMobile);
-    } else {
-        // No Android: faz play/pause para desbloquear seeking via currentTime
-        videoMobile.addEventListener('canplay', () => {
-            videoMobile.play().then(() => {
-                videoMobile.pause();
-                videoMobile.currentTime = 0;
-            }).catch(() => {});
-        }, { once: true });
-    }
 
-    const drawFirstFrame = () => { if (activeVideo.readyState >= 2) drawVideoFrame(); };
-    if (activeVideo.readyState >= 2) drawFirstFrame();
-    else {
-        activeVideo.addEventListener('canplay',    drawFirstFrame, { once: true });
-        activeVideo.addEventListener('loadeddata', drawFirstFrame, { once: true });
-    }
+        const drawFirstFrame = () => { if (activeVideo.readyState >= 2) drawVideoFrame(); };
+        if (activeVideo.readyState >= 2) drawFirstFrame();
+        else {
+            activeVideo.addEventListener('canplay',    drawFirstFrame, { once: true });
+            activeVideo.addEventListener('loadeddata', drawFirstFrame, { once: true });
+        }
 
-    // Desktop: RAF com lerp suave
-    if (!isAndroid) {
+        // RAF com lerp suave
         (function rafLoop() {
             requestAnimationFrame(rafLoop);
             if (!activeVideo.duration) return;
@@ -140,75 +139,29 @@ document.addEventListener("DOMContentLoaded", () => {
         })();
     }
 
-    // Android: seek via evento 'seeked' + RAF loop para manter frame visível
-    let androidSeeking = false, androidPendingTime = null;
-
-    function doAndroidSeek() {
-        if (androidPendingTime === null) return;
-        const t = androidPendingTime;
-        androidPendingTime = null;
-        // Pula seek se já está próximo o suficiente
-        if (Math.abs(activeVideo.currentTime - t) < 0.06) {
-            androidSeeking = false;
-            return;
+    if (!isAndroid) {
+        function adjustMobileHeroHeight() {
+            if (!mobileQuery.matches) return;
+            if (!videoDesktop.duration || !videoMobile.duration) return;
+            heroSection.style.height = Math.round(200 * videoMobile.duration / videoDesktop.duration) + 'vh';
         }
-        androidSeeking = true;
-        activeVideo.currentTime = t;
-        let seekTimer;
-        const onSeeked = () => {
-            clearTimeout(seekTimer);
-            drawVideoFrame();
-            androidSeeking = false;
-            if (androidPendingTime !== null) doAndroidSeek();
-        };
-        activeVideo.addEventListener('seeked', onSeeked, { once: true });
-        // Failsafe: se seeked não disparar em 500ms, continua mesmo assim
-        seekTimer = setTimeout(() => {
-            activeVideo.removeEventListener('seeked', onSeeked);
-            drawVideoFrame();
-            androidSeeking = false;
-            if (androidPendingTime !== null) doAndroidSeek();
-        }, 500);
-    }
+        function onMobileMetadataReady() { adjustMobileHeroHeight(); if (heroScrollTrigger) ScrollTrigger.refresh(); }
+        if (videoMobile.readyState >= 1) onMobileMetadataReady();
+        else videoMobile.addEventListener('loadedmetadata', onMobileMetadataReady, { once: true });
+        if (!videoDesktop.duration) videoDesktop.addEventListener('loadedmetadata', onMobileMetadataReady, { once: true });
 
-    function androidSeekFrame(time) {
-        androidPendingTime = time;
-        if (!androidSeeking) doAndroidSeek();
+        mobileQuery.addEventListener('change', (e) => {
+            activeVideo = e.matches ? videoMobile : videoDesktop;
+            targetTime = 0; lerpTime = 0; activeVideo.currentTime = 0;
+            if (e.matches) { videoMobile.preload = 'auto'; videoMobile.load(); }
+            if (heroScrollTrigger) { heroScrollTrigger.kill(); heroScrollTrigger = null; }
+            scrollInit = false;
+            heroSection.style.height = '';
+            adjustMobileHeroHeight();
+            ScrollTrigger.refresh();
+            initVideoScroll();
+        });
     }
-
-    // RAF loop Android: redesenha qualquer frame disponível — evita tela preta
-    if (isAndroid) {
-        (function androidDrawLoop() {
-            requestAnimationFrame(androidDrawLoop);
-            if (activeVideo.readyState >= 2) {
-                const cur = activeVideo.currentTime;
-                if (cur !== lastDrawn) { lastDrawn = cur; drawVideoFrame(); }
-            }
-        })();
-        activeVideo.addEventListener('ended', () => { drawVideoFrame(); });
-    }
-
-    function adjustMobileHeroHeight() {
-        if (!mobileQuery.matches) return;
-        if (!videoDesktop.duration || !videoMobile.duration) return;
-        heroSection.style.height = Math.round(200 * videoMobile.duration / videoDesktop.duration) + 'vh';
-    }
-    function onMobileMetadataReady() { adjustMobileHeroHeight(); if (heroScrollTrigger) ScrollTrigger.refresh(); }
-    if (videoMobile.readyState >= 1) onMobileMetadataReady();
-    else videoMobile.addEventListener('loadedmetadata', onMobileMetadataReady, { once: true });
-    if (!isAndroid && !videoDesktop.duration) videoDesktop.addEventListener('loadedmetadata', onMobileMetadataReady, { once: true });
-
-    mobileQuery.addEventListener('change', (e) => {
-        activeVideo = e.matches ? videoMobile : videoDesktop;
-        targetTime = 0; lerpTime = 0; activeVideo.currentTime = 0;
-        if (e.matches) { videoMobile.preload = 'auto'; videoMobile.load(); }
-        if (heroScrollTrigger) { heroScrollTrigger.kill(); heroScrollTrigger = null; }
-        scrollInit = false;
-        heroSection.style.height = '';
-        if (e.matches && !isAndroid) adjustMobileHeroHeight();
-        ScrollTrigger.refresh();
-        initVideoScroll();
-    });
 
     // ─── HERO TYPOGRAPHY ──────────────────────────────────────────────────
     // Android: pula SplitType (pode crashar o timeline) — anima o título inteiro
@@ -243,50 +196,52 @@ document.addEventListener("DOMContentLoaded", () => {
     // ─── HERO SCROLL TRIGGER ──────────────────────────────────────────────
     let heroScrollTrigger = null, scrollInit = false;
 
-    function initVideoScroll() {
-        if (scrollInit) return;
-        scrollInit = true;
-        heroScrollTrigger = ScrollTrigger.create({
-            trigger: "#hero", start: "top top", end: "bottom bottom",
-            onUpdate: (self) => {
-                if (activeVideo.duration > 0) {
-                    const t = Math.min(activeVideo.duration * self.progress, activeVideo.duration - 0.1);
-                    if (isAndroid) androidSeekFrame(t);
-                    else targetTime = t;
+    if (!isAndroid) {
+        function initVideoScroll() {
+            if (scrollInit) return;
+            scrollInit = true;
+            heroScrollTrigger = ScrollTrigger.create({
+                trigger: "#hero", start: "top top", end: "bottom bottom",
+                onUpdate: (self) => {
+                    if (activeVideo.duration > 0) {
+                        targetTime = Math.min(activeVideo.duration * self.progress, activeVideo.duration - 0.1);
+                    }
                 }
-            }
-        });
-        gsap.to(".hero-title, .hero-stagger", {
-            y: -100, ease: "power1.inOut",
-            scrollTrigger: { trigger: "#hero", start: "top -15%", end: "bottom top", scrub: true }
-        });
-    }
+            });
+            gsap.to(".hero-title, .hero-stagger", {
+                y: -100, ease: "power1.inOut",
+                scrollTrigger: { trigger: "#hero", start: "top -15%", end: "bottom top", scrub: true }
+            });
+        }
 
-    if (activeVideo.readyState >= 1) {
-        initVideoScroll();
-    } else {
-        activeVideo.addEventListener('loadedmetadata', initVideoScroll, { once: true });
-        activeVideo.addEventListener('canplay', initVideoScroll, { once: true });
-        setTimeout(initVideoScroll, isAndroid ? 8000 : 3000);
+        if (activeVideo.readyState >= 1) {
+            initVideoScroll();
+        } else {
+            activeVideo.addEventListener('loadedmetadata', initVideoScroll, { once: true });
+            activeVideo.addEventListener('canplay', initVideoScroll, { once: true });
+            setTimeout(initVideoScroll, 3000);
+        }
     }
 
     // ─── SWIPER ───────────────────────────────────────────────────────────
     new Swiper('.product-swiper', {
-        slidesPerView: 1.2, spaceBetween: 16, grabCursor: true, loop: true, speed: 800,
+        slidesPerView: 1.2, spaceBetween: 16, grabCursor: true,
+        loop: false, speed: 700,
+        centeredSlides: true, centeredSlidesBounds: true,
         mousewheel: { forceToAxis: true, sensitivity: 0.5 },
         navigation: { nextEl: '.swiper-button-next-custom', prevEl: '.swiper-button-prev-custom' },
         pagination: { el: '.swiper-pagination', clickable: true },
-        breakpoints: { 640: { slidesPerView: 2, spaceBetween: 24 }, 1024: { slidesPerView: 2, spaceBetween: 32 } }
+        breakpoints: { 640: { slidesPerView: 2.2, spaceBetween: 24 }, 1024: { slidesPerView: 2.2, spaceBetween: 32 } }
     });
 
     // ─── CAROUSEL ANIMATIONS ──────────────────────────────────────────────
     gsap.to(".section-title", {
         y: 0, opacity: 1, stagger: 0.1, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: "#colecao", start: "top 80%" }
+        scrollTrigger: { trigger: "#colecao", start: "top 95%" }
     });
     ScrollTrigger.batch(".product-card", {
         onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, stagger: 0.15, duration: 1.2, ease: "power3.out" }),
-        start: "top 85%"
+        start: "top 100%"
     });
 
     // ─── LOOKBOOK ANIMATIONS ──────────────────────────────────────────────
@@ -321,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, "-=0.8");
 
     gsap.from(".lookbook-card, .lookbook-right-btn", {
-        scrollTrigger: { trigger: "#lookbook", start: "top 40%" },
+        scrollTrigger: { trigger: ".lookbook-card", start: "top 100%" },
         y: 40, opacity: 0, scale: 0.95, stagger: 0.15, duration: 1.2,
         ease: "back.out(1.2)", clearProps: "all", immediateRender: false
     });
@@ -329,11 +284,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // ─── FEATURES ANIMATIONS ─────────────────────────────────────────────
     gsap.to(".feature-title", {
         y: 0, opacity: 1, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: "#features", start: "top 80%" }
+        scrollTrigger: { trigger: "#features", start: "top 95%" }
     });
     ScrollTrigger.batch(".feature-card", {
         onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, stagger: 0.15, duration: 1.2, ease: "power3.out" }),
-        start: "top 85%"
+        start: "top 100%"
     });
     gsap.from(".feature-cta", {
         opacity: 0, y: 24, duration: 1.1, ease: "power3.out", immediateRender: false,

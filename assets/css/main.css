@@ -63,6 +63,11 @@ html.lenis { height: auto; }
     .mask-gradient-right { mask-image: linear-gradient(to right, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); }
 }
 
+/* Swiper — curva de easing suave no snap entre cards */
+.product-swiper .swiper-wrapper {
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
 /* Swiper — Indicador Pill (estilo cápsula animada) */
 .product-swiper .swiper-pagination {
     display: inline-flex !important;
