@@ -67,7 +67,7 @@
             <div class="sticky top-0 w-full h-screen overflow-hidden z-0 flex items-center justify-center bg-[#0a0a0a]">
                 <canvas id="hero-canvas" class="absolute inset-0 w-full h-full" style="display:block;"></canvas>
                 <video id="hero-video" src="./assets/videos/hero-video-web.mp4" autoplay muted playsinline webkit-playsinline preload="auto" disablePictureInPicture x-webkit-airplay="deny" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
-                <video id="hero-video-mobile" src="./assets/videos/Hero Mobile.mov" muted playsinline webkit-playsinline preload="none" disablePictureInPicture x-webkit-airplay="deny" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
+                <video id="hero-video-mobile" src="./assets/videos/hero-mobile.mp4" muted playsinline webkit-playsinline preload="none" disablePictureInPicture x-webkit-airplay="deny" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></video>
             </div>
 
             <!-- Container centralizado vertical e horizontalmente -->
@@ -103,7 +103,7 @@
         <section id="lookbook" class="relative w-full min-h-[100vh] overflow-hidden flex flex-col justify-between bg-neutral-950">
             <!-- Background Image with Overlay -->
             <div class="lookbook-bg absolute inset-0 w-full h-full">
-                <img src="./assets/images/lookbook-bg.jpg" class="w-full h-full object-cover object-[48%_50%] md:object-center translate-y-10 scale-105" alt="Owell Style">
+                <img src="./assets/images/lookbook-bg.jpg" class="w-full h-full object-cover object-[48%_50%] md:object-center scale-105" alt="Owell Style">
                 <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/70 via-neutral-950/20 to-neutral-950/40"></div>
                 <!-- Overlay dinâmico: escurece ao expandir os cards (mobile) -->
                 <div id="lookbook-dynamic-overlay" class="absolute inset-0 bg-neutral-950 opacity-0 pointer-events-none md:hidden" style="z-index: 1;"></div>
@@ -168,7 +168,7 @@
                        style="position: absolute; top: 0; left: 0; right: 0; z-index: 3;">
                         <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                            <img src="./assets/images/bone-bowl-preto.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="./assets/images/bone-bowl-preto.jpg" loading="lazy" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                         </div>
                         <div class="flex flex-col justify-center relative z-10 text-left">
                             <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Six Panel Bowl Preto</span>
@@ -182,7 +182,7 @@
                        style="position: absolute; top: 0; left: 0; right: 0; z-index: 2;">
                         <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                            <img src="./assets/images/bone-bowl-off-verde.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="./assets/images/bone-bowl-off-verde.jpg" loading="lazy" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                         </div>
                         <div class="flex flex-col justify-center relative z-10 text-left">
                             <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Six Panel Bowl Off Verde</span>
@@ -196,7 +196,7 @@
                        style="position: absolute; top: 0; left: 0; right: 0; z-index: 1;">
                         <div class="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-20deg]"></div>
                         <div class="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center relative z-10 shadow-inner flex-shrink-0">
-                            <img src="./assets/images/bone-bowl-chumbo.jpg" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
+                            <img src="./assets/images/bone-bowl-chumbo.jpg" loading="lazy" class="w-[120%] h-[120%] object-cover group-hover:scale-110 transition-transform duration-700">
                         </div>
                         <div class="flex flex-col justify-center relative z-10 text-left">
                             <span class="text-[0.6rem] font-space font-bold uppercase tracking-[0.12em] text-white">Six Panel Bowl Chumbo</span>
